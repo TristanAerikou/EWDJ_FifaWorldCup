@@ -1,0 +1,12 @@
+services:
+  FifaWorldCupDB:
+    image: mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      # https://hub.docker.com/_/mysql#environment-variables
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: FifaWorldCupDB
+      MYSQL_USER: usr
+      MYSQL_PASSWORD: pwd
