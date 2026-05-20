@@ -28,6 +28,13 @@ public class UserService {
         return convertToDTOList(repository.findByFirstname(firstname));
     }
 
+//    public List<UserDTO> getUserByLastnameStartingWith(String str) {
+//        return convertToDTOList(repository.findByLastnameStartingWith(str));
+//    }
+//    public List<UserDTO> getUserByLastnameStartingWith2(String str) {
+//        return convertToDTOList(repository.findByLastnameStartingWith(str));
+//    }
+
     // #### Helper Methods ####
 
     private List<UserDTO> convertToDTOList(List<User> users) {

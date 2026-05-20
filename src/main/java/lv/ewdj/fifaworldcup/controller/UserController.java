@@ -20,6 +20,9 @@ public class UserController {
         model.addAttribute("usersByLastname", userService.getUsersByLastname("Blondeel"));
         model.addAttribute("usersByFirstname", userService.getUsersByFirstname("Sandra"));
 
+//        model.addAttribute("usersByLastnameStartingWith", userService.getUserByLastnameStartingWith("blon"));
+//        model.addAttribute("usersByLastnameStartingWith2", userService.getUserByLastnameStartingWith2("k"));
+
         return "usersOverview";
     }
 }

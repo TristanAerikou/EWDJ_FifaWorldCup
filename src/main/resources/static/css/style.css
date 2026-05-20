@@ -1,0 +1,10 @@
+.error {
+    color: red;
+    display: list-item;
+    padding-left: 2rem;
+}
+
+label.mendatory::after {
+    content: " *";
+    color: red;
+}

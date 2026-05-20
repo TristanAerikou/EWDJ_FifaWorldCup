@@ -1,7 +1,7 @@
 services:
   FifaWorldCupDB:
-    image: mysql
-    restart: always
+    image: mysql:lts
+    restart: no
     ports:
       - "3306:3306"
     environment:

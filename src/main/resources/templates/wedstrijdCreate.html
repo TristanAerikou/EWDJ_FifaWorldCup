@@ -1,0 +1,80 @@
+<!DOCTYPE html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{wedstrijd.create.title}"></title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+<form th:action="@{/game/create}" th:object="${gameInputDto}" method="post">
+
+<!--    <div th:if="${#fields.hasErrors()}">-->
+<!--        <ul>-->
+<!--            <li th:each="error: ${#fields.allDetailedErrors()}" th:text="${error}"></li>-->
+<!--        </ul>-->
+<!--    </div>-->
+
+
+    <p>
+        <!--        Land A-->
+        <label th:text="#{wedstrijd.create.form.landA}" class="mendatory"> </label>
+        <input type="text" th:field="*{landA}" />
+        <span th:if="${#fields.hasErrors('landA')}" th:errorclass="error" th:errors="*{landA}"></span>
+    </p>
+
+    <p>
+        <!--       Land B -->
+        <label th:text="#{wedstrijd.create.form.landB}" class="mendatory"> </label>
+        <input type="text" th:field="*{landB}" />
+        <span th:if="${#fields.hasErrors('landB')}" th:errorclass="error" th:errors="*{landB}"></span>
+    </p>
+
+    <p>
+        <!--        Date Of Game -->
+        <label th:text="#{wedstrijd.create.form.date}" class="mendatory"> </label>
+        <input type="date" th:field="*{dateOfGame}" />
+        <span th:if="${#fields.hasErrors('dateOfGame')}" th:errorclass="error" th:errors="*{dateOfGame}"></span>
+    </p>
+
+    <p>
+        <!--        Time Of Game -->
+        <label th:text="#{wedstrijd.create.form.time}" class="mendatory"> </label>
+        <input type="time" th:field="*{timeOfGame}" />
+        <span th:if="${#fields.hasErrors('timeOfGame')}" th:errorclass="error" th:errors="*{timeOfGame}"></span>
+    </p>
+
+    <p>
+        <!--        Location -->
+        <label th:text="#{wedstrijd.create.form.location}"> </label>
+        <input type="text" th:field="*{location}" />
+        <span th:if="${#fields.hasErrors('location')}" th:errorclass="error" th:errors="*{location}"></span>
+    </p>
+
+    <p>
+        <!--        Stadium -->
+        <label th:text="#{wedstrijd.create.form.stadium}"> </label>
+        <input type="text" th:field="*{stadium}" />
+        <span th:if="${#fields.hasErrors('stadium')}" th:errorclass="error" th:errors="*{stadium}"></span>
+    </p>
+
+    <p>
+        <!--        Stadium Code -->
+        <label th:text="#{wedstrijd.create.form.stadiumCode}"> </label>
+        <input type="number" th:field="*{stadiumCode}" />
+        <span th:if="${#fields.hasErrors('stadiumCode')}" th:errorclass="error" th:errors="*{stadiumCode}"></span>
+    </p>
+
+    <p>
+        <!--        Checksum -->
+        <label th:text="#{wedstrijd.create.form.checksum}"> </label>
+        <input type="number" th:field="*{checksum}" />
+        <span th:if="${#fields.hasErrors('checksum')}" th:errorclass="error" th:errors="*{checksum}"></span>
+    </p>
+
+    <p>
+        <button type="submit" th:text="#{wedstrijd.create.form.confirm}"></button>
+    </p>
+
+</form>
+</body>
+</html>
