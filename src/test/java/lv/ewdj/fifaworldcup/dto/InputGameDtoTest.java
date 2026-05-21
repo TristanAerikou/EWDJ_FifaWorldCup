@@ -35,8 +35,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  * de SpringBoot lifecycle gehandled, hetgeen de huidige validators wel nodig hebben.
  */
 @SpringBootTest(properties = {
-        "rule.startdate=2026-05-20",
-        "rule.enddate=2026-07-20"
+        "rule.startdate=2026-02-10",
+        "rule.enddate=2026-07-02"
 })
 class InputGameDtoTest {
 

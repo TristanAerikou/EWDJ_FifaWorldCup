@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
+import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
@@ -38,6 +39,9 @@ class SecurityTest {
         List<OutputGameDto> expectedGames = helperVariables.provideExpectedGames();
 
         Mockito.when(gameService.findAllGames()).thenReturn(expectedGames);
+
+        //TODO verander `.with(...)` naar oplossing zoals in vb-project;
+        // je kunt namelijk wél `when(userService.findByUsername("user")).thenReturn(normalUser);` doen aangezien de UserDetailsService weliswaar een UserService gebruikt.
 
         mockMvc.perform(get("/home")
                         .with(user("user").roles("USER")))

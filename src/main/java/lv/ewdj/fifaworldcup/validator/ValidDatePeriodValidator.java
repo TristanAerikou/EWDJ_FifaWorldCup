@@ -49,7 +49,7 @@ public class ValidDatePeriodValidator implements ConstraintValidator<ValidDatePe
             return true;
 
         boolean isValid =
-                value.isAfter(fifaStartDate) && value.isBefore(fifaEndDate);
+                value.isAfter(fifaStartDate.minusDays(1)) && value.isBefore(fifaEndDate.plusDays(1));
 
         if (!isValid) {
             context.disableDefaultConstraintViolation();

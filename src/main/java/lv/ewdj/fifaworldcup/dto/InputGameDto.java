@@ -13,9 +13,11 @@ public record InputGameDto(
 
         @Pattern(regexp = "^[a-zA-Z- ]+$", message = "must consist of letters only")
         @Size(min = 4, max = 30)
+        @NotNull
         String landA,
         @Pattern(regexp = "^[a-zA-Z]+$", message = "must consist of letters only")
         @Size(min = 4, max = 30)
+        @NotNull
         String landB,
 
         @NotNull(message = "must not be empty")
