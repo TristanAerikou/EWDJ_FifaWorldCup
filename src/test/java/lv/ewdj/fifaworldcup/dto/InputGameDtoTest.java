@@ -25,6 +25,15 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * Waarom @AutoWire op de validators?
+ * De validators gebruiken Dependency Injection (beans). Dit zorgt ervoor dat de validators énkel juist kunnen werken
+ * binnen de Springboot omgeving; Daarom dat @SpringBootTest ook gebruikt wordt (namelijk ene SpringBoot omgeving
+ * opspinnen) zodat de SpringBoot lifecycle kan gebruikt worden binnen de tests.
+ *
+ * Dit is de reden dat we niet een "normale"/default validator kunnen gebruiken. De default validator wordt niet binnen
+ * de SpringBoot lifecycle gehandled, hetgeen de huidige validators wel nodig hebben.
+ */
 @SpringBootTest(properties = {
         "rule.startdate=2026-05-20",
         "rule.enddate=2026-07-20"
