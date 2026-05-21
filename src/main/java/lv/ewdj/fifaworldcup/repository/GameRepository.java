@@ -14,5 +14,6 @@ import java.util.List;
 @Repository
 public interface GameRepository extends JpaRepository<Game, Long> {
 
+    Boolean existsByDateOfGameAndLocation(LocalDate dateOfGame, String location);
 
 }

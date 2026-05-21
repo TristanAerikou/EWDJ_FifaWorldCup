@@ -21,13 +21,14 @@ public class Game {
     @Getter(AccessLevel.NONE)
     private int id;
 
+    // De hele applicatie werd in het engels geschreven... buiten deze attributen. Oops, was vergeten dat 'land' geen Engels was.
     private String landA;
     private String landB;
 
     private LocalDate dateOfGame;
     private LocalTime timeOfGame;
 
-    private String Location;
+    private String location;
     private String stadium;
     private int stadiumCode;
 
@@ -36,7 +37,7 @@ public class Game {
         this.landB = landB;
         this.dateOfGame = dateOfGame;
         this.timeOfGame = timeOfGame;
-        this.Location = location;
+        this.location = location;
         this.stadium = stadium;
         this.stadiumCode = stadiumCode;
     }

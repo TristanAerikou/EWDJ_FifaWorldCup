@@ -26,7 +26,7 @@ public class SecurityConfig {
                 )
 //                .formLogin()
                 .logout(logout -> logout
-                        .logoutSuccessUrl("/home/")
+                        .logoutSuccessUrl("/home")
                 )
                 .exceptionHandling(handling -> handling
                         .accessDeniedPage("/403")

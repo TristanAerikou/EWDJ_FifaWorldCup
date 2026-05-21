@@ -3,6 +3,7 @@ package lv.ewdj.fifaworldcup.validator;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -14,6 +15,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 @Component
+//@NoArgsConstructor //geen no-args constructor want hierdoor vindt springboottest niet de juiste constructor...
 public class ValidDatePeriodValidator implements ConstraintValidator<ValidDatePeriod, LocalDate> {
 
     @Value("${rule.startdate}")

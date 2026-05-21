@@ -59,16 +59,16 @@ public class InitDataConfig implements CommandLineRunner {
         userRepository.save(new User("StoppageTimeWinner", BCRYPTED_PASSWORD, Role.USER, "Nina", "Petrov"));
 
         // GAMES
-        gameRepository.save(new Game("Mechelen", "Brugge", LocalDate.of(2020, 5, 28), LocalTime.of(12, 30), "Brugge", "Jan Breydelstadion", 1));
-        gameRepository.save(new Game("Anderlecht", "Standard", LocalDate.of(2024, 10, 15), LocalTime.of(14, 30), "Anderlecht", "Lotto Park", 0));
-        gameRepository.save(new Game("Gent", "Genk", LocalDate.of(2024, 11, 22), LocalTime.of(18, 0), "Gent", "Ghelamco Arena", 45));
-        gameRepository.save(new Game("Antwerp", "Beerschot", LocalDate.of(2025, 2, 10), LocalTime.of(20, 30), "Antwerp", "Bosuilstadion", 21));
-        gameRepository.save(new Game("Union SG", "Cercle Brugge", LocalDate.of(2025, 3, 5), LocalTime.of(16, 0), "Union SG", "Marienstadion", 66));
-        gameRepository.save(new Game("Charleroi", "Kortrijk", LocalDate.of(2025, 4, 12), LocalTime.of(18, 15), "Charleroi", "Stade du Pays de Charleroi", 80));
-        gameRepository.save(new Game("Leuven", "Sint-Truiden", LocalDate.of(2025, 6, 18), LocalTime.of(20, 0), "Leuven", "King Power at Den Dreef", 12));
-        gameRepository.save(new Game("Westerlo", "Eupen", LocalDate.of(2025, 8, 24), LocalTime.of(15, 30), "Westerlo", "Het Kuipje", 64));
-        gameRepository.save(new Game("Cercle Brugge", "Anderlecht", LocalDate.of(2025, 9, 14), LocalTime.of(13, 30), "Cercle Brugge", "Jan Breydelstadion", 83));
-        gameRepository.save(new Game("Standard", "Gent", LocalDate.of(2025, 12, 5), LocalTime.of(20, 45), "Standard", "Stade Maurice Dufrasne", 37));
+        gameRepository.save(new Game("Mechelen", "Brugge", LocalDate.of(2026, 5, 28), LocalTime.of(12, 30), "Brugge", "Jan Breydelstadion", 1));
+        gameRepository.save(new Game("Anderlecht", "Standard", LocalDate.of(2026, 6, 15), LocalTime.of(14, 30), "Anderlecht", "Lotto Park", 0));
+        gameRepository.save(new Game("Gent", "Genk", LocalDate.of(2026, 2, 22), LocalTime.of(18, 0), "Gent", "Ghelamco Arena", 45));
+        gameRepository.save(new Game("Antwerp", "Beerschot", LocalDate.of(2026, 2, 10), LocalTime.of(20, 30), "Antwerp", "Bosuilstadion", 21));
+        gameRepository.save(new Game("Union SG", "Cercle Brugge", LocalDate.of(2026, 3, 5), LocalTime.of(16, 0), "Union SG", "Marienstadion", 66));
+        gameRepository.save(new Game("Charleroi", "Kortrijk", LocalDate.of(2026, 4, 12), LocalTime.of(18, 15), "Charleroi", "Stade du Pays de Charleroi", 80));
+        gameRepository.save(new Game("Leuven", "Sint-Truiden", LocalDate.of(2026, 6, 18), LocalTime.of(20, 0), "Leuven", "King Power at Den Dreef", 12));
+        gameRepository.save(new Game("Westerlo", "Eupen", LocalDate.of(2026, 7, 1), LocalTime.of(15, 30), "Westerlo", "Het Kuipje", 64));
+        gameRepository.save(new Game("Cercle Brugge", "Anderlecht", LocalDate.of(2026, 5, 14), LocalTime.of(13, 30), "Cercle Brugge", "Jan Breydelstadion", 83));
+        gameRepository.save(new Game("Standard", "Gent", LocalDate.of(2026, 4, 5), LocalTime.of(20, 45), "Standard", "Stade Maurice Dufrasne", 37));
     }
 
 }

@@ -1,30 +1,26 @@
 package lv.ewdj.fifaworldcup.config;
 
-import lv.ewdj.fifaworldcup.controller.GameController;
-import lv.ewdj.fifaworldcup.controller.HomeController;
-import lv.ewdj.fifaworldcup.dto.GameOutputDto;
+import lv.ewdj.fifaworldcup.dto.OutputGameDto;
 import lv.ewdj.fifaworldcup.helpers.helperVariables;
-import lv.ewdj.fifaworldcup.service.FWCUserDetailsService;
 import lv.ewdj.fifaworldcup.service.GameService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
-import org.springframework.context.annotation.Import;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(controllers = {HomeController.class, GameController.class})
-@Import(SecurityConfig.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 class SecurityTest {
 
     @Autowired
@@ -34,36 +30,48 @@ class SecurityTest {
     private GameService gameService;
 
     @MockitoBean
-    private UserDetailsService userDetailsService;
+    UserDetailsService userDetailsService;
 
-    @WithMockUser
     @Test
     void AccessWithUserRole() throws Exception {
 
-        List<GameOutputDto> expectedGames = helperVariables.provideExpectedGames();
+        List<OutputGameDto> expectedGames = helperVariables.provideExpectedGames();
 
         Mockito.when(gameService.findAllGames()).thenReturn(expectedGames);
 
-        mockMvc.perform(get("/home"))
+        mockMvc.perform(get("/home")
+                        .with(user("user").roles("USER")))
                 .andExpect(status().isOk())
                 .andExpect(view().name("homeScreen"))
                 .andExpect(model().attributeExists("allGames"))
                 .andExpect(model().attribute("allGames", expectedGames));
     }
-
     @Test
-    @WithMockUser(roles = "USER")
-    void AdminAccessWithWrongRole() throws Exception {
-        mockMvc.perform(get("/game/create"))
+
+    void noAccessWithWrongRole() throws Exception {
+        mockMvc.perform(get("/home")
+                        .with(user("user").roles("NO_USER")))
                 .andExpect(status().isForbidden());
     }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
+    void AdminAccessWithWrongRole() throws Exception {
+        mockMvc.perform(get("/game/create")
+                        .with(user("user").roles("USER")))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
     void AdminAccessWithAdminRole() throws Exception {
-        mockMvc.perform(get("/game/create"))
+        mockMvc.perform(get("/game/create")
+                        .with(user("user").roles("ADMIN")))
                 .andExpect(status().isOk());
     }
 
+    @Test
+    void noAccessAnonymous() throws Exception {
+        mockMvc.perform(get("/home"))
+                .andExpect(redirectedUrl("/login"));
+    }
 
 }

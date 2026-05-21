@@ -1,7 +1,7 @@
 package lv.ewdj.fifaworldcup.controller;
 
 import jakarta.validation.Valid;
-import lv.ewdj.fifaworldcup.dto.GameInputDto;
+import lv.ewdj.fifaworldcup.dto.InputGameDto;
 import lv.ewdj.fifaworldcup.service.GameService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,22 +20,22 @@ public class GameController {
     }
 
     @GetMapping("create")
-    public String showCreateForm(GameInputDto gameInputDto) {
-        return "wedstrijdCreate";
+    public String showCreateForm(InputGameDto inputGameDto) {
+        return "gameCreate";
     }
 
     @PostMapping("create")
     public String processCreateForm(
-            @Valid GameInputDto gameInputDto,
+            @Valid InputGameDto inputGameDto,
             BindingResult result,
             Model model) {
 
         if (result.hasErrors()) {
-            return "wedstrijdCreate";
+            return "gameCreate";
         }
 
-        gameService.saveGame(gameInputDto);
+        gameService.saveGame(inputGameDto);
 
-        return "homeScreen"; // radpleeg wedstrijd //TODO
+        return "redirect:/home"; // radpleeg wedstrijd //TODO
     }
 }

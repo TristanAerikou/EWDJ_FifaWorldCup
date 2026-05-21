@@ -5,7 +5,7 @@ import lv.ewdj.fifaworldcup.model.Game;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public record GameOutputDto
+public record OutputGameDto
         (
                 String team1,
                 String team2,
@@ -17,8 +17,8 @@ public record GameOutputDto
                 String stadium
         ) {
 
-    public static GameOutputDto objToDto(Game game) {
-        return  new GameOutputDto(
+    public static OutputGameDto objToDto(Game game) {
+        return  new OutputGameDto(
                 game.getLandA(),
                 game.getLandB(),
 
@@ -30,7 +30,7 @@ public record GameOutputDto
         );
     }
 
-    public static Game dtoToObj(GameInputDto dto) {
+    public static Game dtoToObj(InputGameDto dto) {
         return new Game(
                 dto.landA(),
                 dto.landB(),
@@ -38,7 +38,7 @@ public record GameOutputDto
                 dto.timeOfGame(),
                 dto.location(),
                 dto.stadium(),
-                dto.stadiumCode()
+                dto.stadiumCode() != null ? dto.stadiumCode() : -1
         );
     }
 }

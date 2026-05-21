@@ -1,6 +1,6 @@
 package lv.ewdj.fifaworldcup.helpers;
 
-import lv.ewdj.fifaworldcup.dto.GameOutputDto;
+import lv.ewdj.fifaworldcup.dto.OutputGameDto;
 import lv.ewdj.fifaworldcup.model.Game;
 
 import java.time.LocalDate;
@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 
 public class helperVariables {
 
-    public static List<GameOutputDto> provideExpectedGames() {
+    public static List<OutputGameDto> provideExpectedGames() {
         return Stream.of(
                 new Game("Mechelen", "Brugge", LocalDate.of(2020, 5, 28), LocalTime.of(12, 30), "Brugge", "Jan Breydelstadion", 1),
                 new Game("Anderlecht", "Standard", LocalDate.of(2024, 10, 15), LocalTime.of(14, 30), "Anderlecht", "Lotto Park", 0),
@@ -22,6 +22,6 @@ public class helperVariables {
                 new Game("Westerlo", "Eupen", LocalDate.of(2025, 8, 24), LocalTime.of(15, 30), "Westerlo", "Het Kuipje", 64),
                 new Game("Cercle Brugge", "Anderlecht", LocalDate.of(2025, 9, 14), LocalTime.of(13, 30), "Cercle Brugge", "Jan Breydelstadion", 83),
                 new Game("Standard", "Gent", LocalDate.of(2025, 12, 5), LocalTime.of(20, 45), "Standard", "Stade Maurice Dufrasne", 37)
-        ).map(GameOutputDto::objToDto).toList();
+        ).map(OutputGameDto::objToDto).toList();
     }
 }
