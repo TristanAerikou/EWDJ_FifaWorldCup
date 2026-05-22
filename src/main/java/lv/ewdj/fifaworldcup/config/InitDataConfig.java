@@ -36,8 +36,8 @@ public class InitDataConfig implements CommandLineRunner {
     public void run(String... args) {
 
         // TEAMS
-        Team team1 = new Team("Team1", "abcdefg");
-        Team team2 = new Team("Team2", "abcdefg");
+        Team team1 = new Team("Team1", "abcdefg1");
+        Team team2 = new Team("Team2", "abcdefg2");
 
         teamRepository.save(team1);
         teamRepository.save(team2);

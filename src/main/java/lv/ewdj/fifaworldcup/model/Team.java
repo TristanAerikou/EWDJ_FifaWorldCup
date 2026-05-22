@@ -18,6 +18,7 @@ public class Team {
     @Column(unique = true)
     private String name;
 
+    @Column(unique = true)
     private String inviteCode;
 
     public  Team(String name, String inviteCode) {

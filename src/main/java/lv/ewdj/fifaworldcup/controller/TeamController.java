@@ -1,19 +1,20 @@
 package lv.ewdj.fifaworldcup.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lv.ewdj.fifaworldcup.dto.OutputGameDto;
+import lv.ewdj.fifaworldcup.dto.InputInvitecodeDto;
+import lv.ewdj.fifaworldcup.dto.InputTeamDto;
 import lv.ewdj.fifaworldcup.dto.OutputTeamDto;
-import lv.ewdj.fifaworldcup.dto.UserDto;
 import lv.ewdj.fifaworldcup.model.Team;
 import lv.ewdj.fifaworldcup.service.TeamService;
-import lv.ewdj.fifaworldcup.service.UserService;
+import org.hibernate.result.Output;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("team")
@@ -29,6 +30,74 @@ public class TeamController {
         if (team == null) {
             return "redirect:/team/noTeam";
         }
-        return "redirect:/team/" + team.name();
+        return "redirect:/team/myTeam";
     }
+
+    @GetMapping("noTeam")
+    public String showNoTeam(Principal principal, Model model) {
+        OutputTeamDto team = teamService.getTeamByUsername(principal.getName());
+        if (team != null) {
+            return "redirect:/team/myTeam";
+        }
+
+        if (!model.containsAttribute("inputTeamDto")) {
+            model.addAttribute("inputTeamDto", new InputTeamDto(""));
+        }
+        if (!model.containsAttribute("inputInvitecodeDto")) {
+            model.addAttribute("inputInvitecodeDto", new InputInvitecodeDto(""));
+        }
+        return "noTeam";
+    }
+
+    @PostMapping("create")
+    public String createTeam(
+            @Valid @ModelAttribute("inputTeamDto") InputTeamDto inputTeamDto,
+            BindingResult result,
+            Model model,
+            Principal principal,
+            RedirectAttributes redirectAttributes) {
+
+        if (result.hasErrors()) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.inputTeamDto", result);
+            redirectAttributes.addFlashAttribute("inputTeamDto", inputTeamDto);
+            return "redirect:/team/noTeam";
+        }
+
+        teamService.saveTeam(inputTeamDto, principal.getName());
+
+        return "redirect:/team";
+
+    }
+
+    @PostMapping("join")
+    public String joinTeam(
+            @Valid @ModelAttribute("inputInvitecodeDto") InputInvitecodeDto inputInvitecodeDto,
+//            InputTeamDto inputTeamDto,
+            BindingResult result,
+            Model model,
+            RedirectAttributes redirectAttributes) {
+
+        if (result.hasErrors()) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.inputInvitecodeDto", result);
+            redirectAttributes.addFlashAttribute("inputInvitecodeDto", inputInvitecodeDto);
+            return "redirect:/team/noTeam";
+        }
+
+//        teamService.joinTeam() // TODO vergeet niet dat je al een methode hebt gemaakt in users om team aan te passen ^^
+
+        return  "redirect:/team/myTeam";
+    }
+
+    @GetMapping("myTeam")
+    public String showTeam(Model model, Principal principal) {
+        OutputTeamDto team = teamService.getTeamByUsername(principal.getName());
+        if (team == null) {
+            return "redirect:/team/noTeam";
+        }
+
+        model.addAttribute("team", team);
+
+        return "teamPage";
+    }
+
 }

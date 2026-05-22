@@ -40,10 +40,12 @@ public class User {
 
     @ManyToOne
     @ToString.Exclude
+    @Setter
     private Team team;
 
     @OneToOne
     @ToString.Exclude
+    @Setter
     private Team owningTeam;
 
     public User(

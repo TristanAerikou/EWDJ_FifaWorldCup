@@ -29,16 +29,4 @@ public record OutputGameDto
                 game.getStadium()
         );
     }
-
-    public static Game dtoToObj(InputGameDto dto) {
-        return new Game(
-                dto.landA(),
-                dto.landB(),
-                dto.dateOfGame(),
-                dto.timeOfGame(),
-                dto.location(),
-                dto.stadium(),
-                dto.stadiumCode() != null ? dto.stadiumCode() : -1
-        );
-    }
 }

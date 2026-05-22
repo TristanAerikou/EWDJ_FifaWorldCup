@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{noTeam.title}">Join a team, or create one!</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+
+<h1 th:text="#{noTeam.title}"></h1>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<h3 th:text="#{noTeam.join.heading}"></h3>
+<form th:action="@{/team/join}" th:object="${inputInvitecodeDto}" method="post">
+    <p>
+        <!--        Team Name -->
+        <label th:text="#{noTeam.join.label}"></label>
+        <input type="text" th:field="*{inviteCode}"/>
+        <span th:if="${#fields.hasErrors('inviteCode')}" th:errorclass="error" th:errors="*{inviteCode}"></span>
+    </p>
+    <button type="submit" th:text="#{form.submit}"></button>
+</form>
+
+
+
+<div>
+    <h3 th:text="#{noTeam.create.heading}"></h3>
+    <form th:action="@{/team/create}" th:object="${inputTeamDto}" method="post">
+        <p>
+            <!--        Team Name -->
+            <label th:text="#{noTeam.create.name}"></label>
+            <input type="text" th:field="*{name}"/>
+            <span th:if="${#fields.hasErrors('name')}" th:errorclass="error" th:errors="*{name}"></span>
+        </p>
+<!--        <p>-->
+<!--            &lt;!&ndash;        Invite Code &ndash;&gt;-->
+<!--            <label th:text="#{noTeam.create.inviteCode}" class="mendatory"> </label>-->
+<!--            <input type="text" th:field="*{inviteCode}"/>-->
+<!--            <span th:if="${#fields.hasErrors('inviteCode')}" th:errorclass="error" th:errors="*{inviteCode}"></span>-->
+<!--        </p>-->
+        <button type="submit" th:text="#{form.submit}"></button>
+
+    </form>
+</div>
+
+</body>
+</html>

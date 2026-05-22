@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>uh-oh...</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+<p th:text="|Oops... Something came up regarding this invite code: ${exception.inviteCode}.|"></p>
+<p th:text="${exception.message}"></p>
+<a th:text="#{returnToHomePage}" th:href="@{/}"></a>
+</body>
+</html>

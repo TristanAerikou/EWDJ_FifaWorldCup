@@ -24,7 +24,7 @@ public class GameService {
 
     public void saveGame(InputGameDto inputGameDto) {
         gameRepository.save(
-                OutputGameDto.dtoToObj(inputGameDto)
+                InputGameDto.dtoToObj(inputGameDto)
         );
     }
 

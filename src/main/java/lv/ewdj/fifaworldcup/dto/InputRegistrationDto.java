@@ -1,5 +1,5 @@
 package lv.ewdj.fifaworldcup.dto;
 
-public class InputRegistrationDto {
+public record InputRegistrationDto() {
     //TODO GEBRUIK VALIDATOR VOOR PASSWORDS
 }

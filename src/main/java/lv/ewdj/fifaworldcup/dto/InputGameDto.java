@@ -1,6 +1,7 @@
 package lv.ewdj.fifaworldcup.dto;
 
 import jakarta.validation.constraints.*;
+import lv.ewdj.fifaworldcup.model.Game;
 import lv.ewdj.fifaworldcup.validator.ValidChecksum;
 import lv.ewdj.fifaworldcup.validator.ValidDatePeriod;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -37,4 +38,15 @@ public record InputGameDto(
         Integer stadiumCode,
         Integer checksum
 ) {
+    public static Game dtoToObj(InputGameDto dto) {
+        return new Game(
+                dto.landA(),
+                dto.landB(),
+                dto.dateOfGame(),
+                dto.timeOfGame(),
+                dto.location(),
+                dto.stadium(),
+                dto.stadiumCode() != null ? dto.stadiumCode() : -1
+        );
+    }
 }

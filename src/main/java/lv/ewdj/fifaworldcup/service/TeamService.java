@@ -1,10 +1,15 @@
 package lv.ewdj.fifaworldcup.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lv.ewdj.fifaworldcup.dto.InputTeamDto;
 import lv.ewdj.fifaworldcup.dto.OutputTeamDto;
-import lv.ewdj.fifaworldcup.dto.UserDto;
+import lv.ewdj.fifaworldcup.dto.InputUserDto;
+import lv.ewdj.fifaworldcup.dto.OutputUserDto;
+import lv.ewdj.fifaworldcup.exceptions.InvitecodeException;
 import lv.ewdj.fifaworldcup.exceptions.UserNotFoundException;
 import lv.ewdj.fifaworldcup.model.Team;
+import lv.ewdj.fifaworldcup.model.User;
 import lv.ewdj.fifaworldcup.repository.TeamRepository;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +22,52 @@ public class TeamService {
     private final TeamRepository teamRepository;
     private final UserService userService;
 
-    public OutputTeamDto getTeamByUsername(String username){
-        Optional<UserDto> optionaUser = userService.getUserByUsername(username);
+    public OutputTeamDto getTeamByUsername(String username) {
+        Optional<OutputUserDto> optionaUser = userService.getUserByUsername(username);
         if (optionaUser.isEmpty()) {
             throw new UserNotFoundException(username);
         }
         Optional<Team> teamOptional = Optional.ofNullable(optionaUser.get().team());
         return teamOptional.map(OutputTeamDto::objToDto).orElse(null);
+    }
+
+    public void saveTeam(InputTeamDto inputTeamDto, String username) {
+        String inviteCode = generateInviteCode(inputTeamDto.name());
+
+        checkInviteCode(inviteCode);
+
+        Team team = teamRepository.save(InputTeamDto.dtoToObj(inputTeamDto, inviteCode));
+
+        userService.updateUserTeams(username, team, team);
+
+    }
+
+    private void checkInviteCode(String inviteCode) {
+        if (teamRepository.existsByInviteCode(inviteCode))
+            throw new InvitecodeException("Already in use", inviteCode);
+    }
+
+    private String generateInviteCode(String name) {
+        if (!name.matches(".*[a-zA-Z]*.*"))
+            throw new IllegalArgumentException("Name must contain letters for invite code to be generated");
+        int counter = 0;
+        int nameLength = name.length();
+        StringBuilder currentStr = new StringBuilder();
+        while (currentStr.length() < 8) {
+            char c = name.charAt(counter++ % nameLength);
+            if (c >= 'A' && c <= 'z') {
+                currentStr.append(c);
+            } else {
+                counter++;
+            }
+        }
+        return currentStr.toString().toUpperCase();
+    }
+
+    public OutputTeamDto getTeamByInviteCode(String inviteCode) {
+        Optional<Team> optionalTeam = teamRepository.getTeamByInviteCode(inviteCode);
+        if (optionalTeam.isEmpty()) throw new InvitecodeException("Team with invite code %s not found".formatted(inviteCode), inviteCode);
+
+        return OutputTeamDto.objToDto(optionalTeam.get());
     }
 }
