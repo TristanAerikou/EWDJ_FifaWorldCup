@@ -1,7 +1,11 @@
 package lv.ewdj.fifaworldcup.controller;
 
 import lv.ewdj.fifaworldcup.dto.InputGameDto;
+import lv.ewdj.fifaworldcup.dto.OutputGameDto;
+import lv.ewdj.fifaworldcup.helpers.helperVariables;
 import lv.ewdj.fifaworldcup.service.GameService;
+import lv.ewdj.fifaworldcup.validator.GameValidator;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -11,9 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.validation.Errors;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.stream.Stream;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -28,6 +34,33 @@ class GameControllerTest {
 
     @MockitoBean
     private GameService gameService;
+
+    @MockitoBean
+    private GameValidator gameValidator;
+
+    @BeforeEach
+    void setUp() {
+        Mockito.when(gameValidator.supports(InputGameDto.class)).thenReturn(true);
+    }
+
+    // ######################
+    // game/allGames        #
+    // ######################
+
+    @Test
+//    @WithMockUser
+    void getAllGames() throws Exception {
+
+        List<OutputGameDto> expectedGames = helperVariables.provideExpectedGames();
+
+        Mockito.when(gameService.findAllGames()).thenReturn(expectedGames);
+
+        mockMvc.perform(get("/game/allGames"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("homeScreen"))
+                .andExpect(model().attributeExists("allGames"))
+                .andExpect(model().attribute("allGames", expectedGames));
+    }
 
     // ######################
     // game/create          #
@@ -64,8 +97,8 @@ class GameControllerTest {
                         .flashAttr("inputGameDto", validRequest)
                 )
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/home")) //TODO CHANAGE
-                .andExpect(redirectedUrl("/home")); //TODO CHANAGE
+                .andExpect(view().name("redirect:/game/allgames")) //TODO CHANAGE
+                .andExpect(redirectedUrl("/game/allgames")); //TODO CHANAGE
 
         Mockito.verify(gameService, Mockito.times(1)).saveGame(validRequest);
 
@@ -95,6 +128,8 @@ class GameControllerTest {
     @MethodSource("ProvideInvalidGame")
     void postCreateInvalidRequest(String landA, String landB, LocalDate dateOfGame, LocalTime timeOfGame, Integer stadiumCode, Integer checksum, String[] expectedErrors) throws Exception {
 
+        trainGameValidator(expectedErrors);
+
         InputGameDto invalidRequest = new InputGameDto(
                 landA,
                 landB,
@@ -115,6 +150,16 @@ class GameControllerTest {
 
         Mockito.verify(gameService, Mockito.never()).saveGame(Mockito.any());
 
+    }
+
+    private void trainGameValidator(String[] expectedErrors) {
+        Mockito.doAnswer(invocation -> {
+            Errors errors = invocation.getArgument(1);
+            for (String field : expectedErrors) {
+                errors.rejectValue(field, "error.code", "Invalid field value");
+            }
+            return null;
+        }).when(gameValidator).validate(Mockito.any(InputGameDto.class), Mockito.any(Errors.class));
     }
 
 

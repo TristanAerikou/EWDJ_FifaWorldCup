@@ -33,6 +33,8 @@ class SecurityTest {
     @MockitoBean
     UserDetailsService userDetailsService;
 
+    //TODO test voor elk pad of de juiste rollen eraan kunnen (en dat de verkeerde rollen er niet aankunnen)
+
     @Test
     void AccessWithUserRole() throws Exception {
 

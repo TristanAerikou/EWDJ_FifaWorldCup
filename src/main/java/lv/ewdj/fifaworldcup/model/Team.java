@@ -1,0 +1,27 @@
+package lv.ewdj.fifaworldcup.model;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+@Entity
+@Table(name = "teams")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+@EqualsAndHashCode(of = "name")
+@ToString
+public class Team {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @Column(unique = true)
+    private String name;
+
+    private String inviteCode;
+
+    public  Team(String name, String inviteCode) {
+        this.name = name;
+        this.inviteCode = inviteCode;
+    }
+}

@@ -1,12 +1,14 @@
 package lv.ewdj.fifaworldcup.service;
 
 import lombok.RequiredArgsConstructor;
-import lv.ewdj.fifaworldcup.dto.UserDTO;
+import lv.ewdj.fifaworldcup.dto.UserDto;
+import lv.ewdj.fifaworldcup.exceptions.UserNotFoundException;
 import lv.ewdj.fifaworldcup.model.User;
 import lv.ewdj.fifaworldcup.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,29 +18,26 @@ public class UserService {
 
     // ### Methods ###
 
-    public List<UserDTO> getAllUsers() {
-        return convertToDTOList(repository.findAll());
+    public List<UserDto> getAllUsers() {
+        return repository.findAll().stream().map(this::convertToDTO).toList();
     }
 
-    public List<UserDTO> getUsersByLastname (String lastname) {
-        return convertToDTOList(repository.findByLastname(lastname));
+    public Optional<UserDto> getUserByUsername(String username) {
+        Optional<User> optionalUser = repository.findByUsername(username);
+        return optionalUser.map(this::convertToDTO);
     }
 
-    public List<UserDTO> getUsersByFirstname (String firstname) {
-        return convertToDTOList(repository.findByFirstname(firstname));
-    }
-
-//    public List<UserDTO> getUserByLastnameStartingWith(String str) {
-//        return convertToDTOList(repository.findByLastnameStartingWith(str));
-//    }
-//    public List<UserDTO> getUserByLastnameStartingWith2(String str) {
-//        return convertToDTOList(repository.findByLastnameStartingWith(str));
-//    }
+    //TODO if delete user --> what to do with team
 
     // #### Helper Methods ####
 
-    private List<UserDTO> convertToDTOList(List<User> users) {
-        return users.stream().map(u -> new UserDTO(u.getFirstname(), u.getLastname())).toList();
+    private UserDto convertToDTO(User u) {
+        return new UserDto(
+                u.getFirstname(),
+                u.getLastname(),
+                u.getOwningTeam(),
+                u.getTeam()
+        );
     }
 
 }

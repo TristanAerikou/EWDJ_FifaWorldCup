@@ -4,10 +4,11 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
+@Table(name = "users")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @EqualsAndHashCode(exclude = "id") //TODO CHANGE
-@ToString(exclude = "id")
+@ToString
 //@NamedQueries({
 //        @NamedQuery(name="User.findByNameStartingWith2",
 //                query = """
@@ -21,23 +22,37 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter(AccessLevel.NONE)
+    @ToString.Exclude
     private Long id;
 
+    @Column(unique = true, nullable = false) //TODO wat als iemand een bestaande username wilt
     private String username;
+    @Column(nullable = false)
     private String password;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Column(nullable = false)
     private String lastname;
+    @Column(nullable = false)
     private String firstname;
 
+    @ManyToOne
+    @ToString.Exclude
+    private Team team;
+
+    @OneToOne
+    @ToString.Exclude
+    private Team owningTeam;
 
     public User(
             String username,
             String password,
             Role role,
 
-            String lastname,
-            String firstname
+            String firstname,
+            String lastname
     ) {
         this.username = username;
         this.password = password;
@@ -45,5 +60,30 @@ public class User {
 
         this.lastname = lastname;
         this.firstname = firstname;
+
+        this.team = null;
+        this.owningTeam = null;
+    }
+
+    public User(
+            String username,
+            String password,
+            Role role,
+
+            String firstname,
+            String lastname,
+
+            Team team,
+            Team owningTeam
+    ) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+
+        this.lastname = lastname;
+        this.firstname = firstname;
+
+        this.team = team;
+        this.owningTeam = owningTeam;
     }
 }

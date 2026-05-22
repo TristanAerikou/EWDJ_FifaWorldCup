@@ -24,11 +24,11 @@ public class SecurityConfig {
                         .anyRequest().hasAnyRole("USER", "ADMIN")
 
                 ).formLogin(form -> form
-                        .defaultSuccessUrl("/home", false)
+                        .defaultSuccessUrl("/", false)
                 )
 
                 .logout(logout -> logout
-                        .logoutSuccessUrl("/home")
+                        .logoutSuccessUrl("/")
                 )
 
                 .exceptionHandling(handling -> handling

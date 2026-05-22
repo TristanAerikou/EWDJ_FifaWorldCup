@@ -1,7 +1,21 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<div th:fragment="navbar">
-    <a th:text="></a>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+<div th:fragment="navbar" class="navbar">
+    <p sec:authorize="isAuthenticated()" th:text="#{navbar.anchor.greeting(${username})}"></p>
 
+    <a th:href="@{/login}" sec:authorize="isAnonymous()" th:text="#{navbar.anchor.login}"></a>
+    <a th:href="@{/logout}" sec:authorize="isAuthenticated()" th:text="#{navbar.anchor.logout}"></a>
+
+    <a th:text="#{navbar.anchor.ranking}"></a>
+
+    <a th:href="@{/game/allGames}" th:text="#{navbar.anchor.allGames}"></a>
+
+    <a th:href="@{/team}" sec:authorize="isAuthenticated()" th:text="#{navbar.anchor.team}"></a>
+    <a sec:authorize="isAuthenticated()" th:text="#{navbar.anchor.predictions}"></a>
+
+    <a th:href="@{/game/create}" sec:authorize="hasRole('ADMIN')" th:text="#{navbar.anchor.manageGames}"></a>
 </div>
 </html>

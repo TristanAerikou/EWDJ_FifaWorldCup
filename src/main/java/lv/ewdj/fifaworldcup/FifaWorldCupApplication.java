@@ -14,7 +14,7 @@ public class FifaWorldCupApplication implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addRedirectViewController("/", "/home");
+        registry.addRedirectViewController("/", "/game/allGames");
         registry.addViewController("/403").setViewName("error/403");
     }
 

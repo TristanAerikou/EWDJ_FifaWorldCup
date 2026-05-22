@@ -1,11 +1,17 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
 <head>
     <meta charset="UTF-8">
     <title>Fifa World Cup!</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
 </head>
 <body>
 <h1 th:text="#{home.welcome}"></h1>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
 
 <h2 th:text="#{home.table.title}"></h2>
 <table>

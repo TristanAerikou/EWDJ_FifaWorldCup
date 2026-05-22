@@ -8,3 +8,8 @@ label.mendatory::after {
     content: " *";
     color: red;
 }
+
+.navbar {
+    display: flex;
+    flex-direction: column;
+}

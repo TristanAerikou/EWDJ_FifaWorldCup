@@ -3,8 +3,10 @@ package lv.ewdj.fifaworldcup.config;
 import lombok.RequiredArgsConstructor;
 import lv.ewdj.fifaworldcup.model.Game;
 import lv.ewdj.fifaworldcup.model.Role;
+import lv.ewdj.fifaworldcup.model.Team;
 import lv.ewdj.fifaworldcup.model.User;
 import lv.ewdj.fifaworldcup.repository.GameRepository;
+import lv.ewdj.fifaworldcup.repository.TeamRepository;
 import lv.ewdj.fifaworldcup.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
@@ -20,6 +22,7 @@ public class InitDataConfig implements CommandLineRunner {
 
     private final UserRepository userRepository;
     private final GameRepository gameRepository;
+    private final TeamRepository teamRepository;
 
     private static final String BCRYPTED_PASSWORD =
             "$2a$12$XUVHZa3gBuw.mpetu.2dmunWbKYjfIChpk9ZXgxAnsXGP1lKYimgy";
@@ -32,11 +35,24 @@ public class InitDataConfig implements CommandLineRunner {
     @Override
     public void run(String... args) {
 
+        // TEAMS
+        Team team1 = new Team("Team1", "abcdefg");
+        Team team2 = new Team("Team2", "abcdefg");
+
+        teamRepository.save(team1);
+        teamRepository.save(team2);
+
 
         // USERS
         userRepository.save(new User("RockFromSpace", ADMIN_PASSWORD, Role.ADMIN, "Tristan", "Aerikou"));
 
-        userRepository.save(new User("Mercy", BCRYPTED_PASSWORD, Role.USER, "Sans", "The Skeleton"));
+        userRepository.save(new User("Mercy", BCRYPTED_PASSWORD, Role.USER, "Sans", "The Skeleton", team1, null));
+        userRepository.save(new User("Spaghetti", BCRYPTED_PASSWORD, Role.USER, "Papyrus", "The Skeleton", team1, team1));
+
+        userRepository.save(new User("flowie", BCRYPTED_PASSWORD, Role.USER, "flowie", "The Flower"));
+
+
+
         userRepository.save(new User("StrikerGoal99", BCRYPTED_PASSWORD, Role.USER, "Lucas", "Dubois"));
         userRepository.save(new User("OffsideTrap", BCRYPTED_PASSWORD, Role.USER, "Elena", "Russo"));
         userRepository.save(new User("TikiTakaMaster", BCRYPTED_PASSWORD, Role.USER, "Mateo", "Silva"));
