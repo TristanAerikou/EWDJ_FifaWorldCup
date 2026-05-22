@@ -11,27 +11,29 @@ import java.time.LocalTime;
 @ValidChecksum(modulo = 97)
 public record InputGameDto(
 
-        @Pattern(regexp = "^[a-zA-Z- ]+$", message = "must consist of letters only")
-        @Size(min = 4, max = 30)
+//        @NotBlank(message = "{wedstrijd.create.validation.landsBlank}") // clutters the error messages
+        @Pattern(regexp = "^[a-zA-Z- ]+$", message = "{wedstrijd.create.validation.landPattern}")
+        @Size(min = 4, max = 30, message = "{wedstrijd.create.validation.landSize}")
         @NotNull
         String landA,
-        @Pattern(regexp = "^[a-zA-Z]+$", message = "must consist of letters only")
-        @Size(min = 4, max = 30)
+//        @NotBlank(message = "{wedstrijd.create.validation.landsBlank}") // clutters the error messages
+        @Pattern(regexp = "^[a-zA-Z]+$", message = "{wedstrijd.create.validation.landPattern}")
+        @Size(min = 4, max = 30, message = "{wedstrijd.create.validation.landSize}")
         @NotNull
         String landB,
 
-        @NotNull(message = "must not be empty")
-        @DateTimeFormat(pattern = "dd-MM-yyyy")
+        @NotNull(message = "{wedstrijd.create.validation.null}")
+//        @DateTimeFormat(pattern = "dd-MM-yyyy")
         @ValidDatePeriod()
         LocalDate dateOfGame,
-        @NotNull(message = "must not be empty")
-        @DateTimeFormat(pattern = "hh-mm")
+        @NotNull(message = "{wedstrijd.create.validation.null}")
+//        @DateTimeFormat(pattern = "hh-mm")
         LocalTime timeOfGame,
 
         String location,
         String stadium,
-        @Min(value = 1000, message = "must be exactlly 4 characters")
-        @Max(value = 9999, message = "must be exactlly 4 characters")
+        @Min(value = 1000, message = "{wedstrijd.create.validation.stadiumCode}")
+        @Max(value = 9999, message = "{wedstrijd.create.validation.stadiumCode}")
         Integer stadiumCode,
         Integer checksum
 ) {
