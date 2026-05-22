@@ -6,9 +6,9 @@
     <link rel="stylesheet" th:href="@{/css/style.css}" />
 </head>
 <body>
-<!--<form th:action="@{/game/create}" th:object="${inputGameDto}" method="post">-->
-<form action="/game/create" th:object="${inputGameDto}" method="post">
-<!--    <div th:if="${#fields.hasErrors()}">-->
+<form th:action="@{/game/create}" th:object="${inputGameDto}" method="post">
+
+    <!--    <div th:if="${#fields.hasErrors()}">-->
 <!--        <ul>-->
 <!--            <li th:each="error: ${#fields.allDetailedErrors()}" th:text="${error}"></li>-->
 <!--        </ul>-->
