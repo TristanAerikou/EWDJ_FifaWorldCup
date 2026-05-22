@@ -9,7 +9,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -161,10 +160,20 @@ class InputGameDtoTest {
                 .containsAll(expected);
     }
 
-    // ######################
-    // Land A & Land B     #
-    // ######################
+    // ########################
+    // GameValidator (advice) #
+    // ########################
 
+    /**
+     * "BeanPropertyBindingResult" is de default implementatie van Errors & BindingResult. We gaan in zekere mate
+     * "BindingResult" nabootsen uit de SpringBoot lifecycle. Het neemt en onthoudt de invalidGame zou gebeuren
+     * in de SpringBoot lifecycle. We gaan de validator's (hier: gameValidator) ".validate()" manueel aanroepen
+     * met als argumenten de dto en het "gesimuleerde BindingResult" (hier: errors).
+     *
+     * De reden dat dit moet gebeuren is omdat we geen "default" Validator gebruiken maar de zelfgemaakte Validator
+     * (zoals beschreven aan het begin van de testklasse) waarbij de ".validate()" methode twee parameters heeft én
+     * void is / geen return type heeft.
+     */
     @Test
     void invalid_landaEqualLandb() {
 
@@ -181,10 +190,31 @@ class InputGameDtoTest {
 
         assertThat(errors.hasErrors()).isTrue();
         assertThat(errors.getFieldError("landB")).isNotNull();
+        assertThat(errors.getFieldError("landB").getDefaultMessage()).containsIgnoringCase("must not be the same");
 
     }
 
-    //TODO test datum & locatie
+    @Test
+    void invalid_dateAndLocation() {
+        LocalDate existingDate = LocalDate.of(2025, 5, 25);
+        String existingLocation = "Palais des Expositions";
 
+        Mockito.when(gameRepository.existsByDateOfGameAndLocation(existingDate, existingLocation)).thenReturn(true);
+
+        InputGameDto invalidGame = new InputGameDto(
+                DEFAULT_LANDA, DEFAULT_LANDB,
+                existingDate, DEFAULT_TIMEOFGAME,
+                existingLocation, null,
+                null, null
+        );
+
+        Errors errors = new BeanPropertyBindingResult(invalidGame, "invalidGame");
+
+        gameValidator.validate(invalidGame, errors);
+
+        assertThat(errors.hasErrors()).isTrue();
+        assertThat(errors.getFieldError("location")).isNotNull();
+        assertThat(errors.getFieldError("location").getDefaultMessage()).containsIgnoringCase("in use");
+    }
 
 }

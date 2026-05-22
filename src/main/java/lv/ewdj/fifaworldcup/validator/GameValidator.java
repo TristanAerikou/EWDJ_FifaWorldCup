@@ -27,7 +27,7 @@ public class GameValidator implements Validator {
         InputGameDto dto = (InputGameDto) target;
 
         validateLands(errors, dto);
-        validateTimeAndPlace(errors, dto);
+        validateDateAndPlace(errors, dto);
 
     }
 
@@ -43,7 +43,7 @@ public class GameValidator implements Validator {
         }
     }
 
-    private static void validateTimeAndPlace(Errors errors, InputGameDto dto) {
+    private static void validateDateAndPlace(Errors errors, InputGameDto dto) {
         if (dto.location() == null || dto.location().isBlank()) return;
 
         boolean isValid = gameRepository.existsByDateOfGameAndLocation(dto.dateOfGame(), dto.location());
@@ -51,7 +51,7 @@ public class GameValidator implements Validator {
         if (isValid) {
             errors.rejectValue("location",
                     "wedstrijd.create.validation.timeAndPlace",
-                    "lands must not be the same");
+                    "date and place are in use");
 //            errors.rejectValue("dateOfGame",
 //                    "wedstrijd.create.validation.timeAndPlace",
 //                    "lands must not be the same");
