@@ -21,6 +21,8 @@ public class Team {
     @Column(unique = true)
     private String inviteCode;
 
+//    private int points;
+
     public  Team(String name, String inviteCode) {
         this.name = name;
         this.inviteCode = inviteCode;
@@ -31,4 +33,8 @@ public class Team {
         this.name = name;
         this.inviteCode = inviteCode;
     }
+
+//    public void setPoints(int pointsToAdd) {
+//        this.points += pointsToAdd;
+//    }
 }

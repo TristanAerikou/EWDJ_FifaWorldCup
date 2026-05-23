@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 @Table(name = "games")
@@ -17,11 +18,15 @@ public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    @Getter(AccessLevel.NONE)
+    @Setter
     private int id;
 
     // De hele applicatie werd in het engels geschreven... buiten deze attributen. Oops, was vergeten dat 'land' geen Engels was.
     private String landA;
     private String landB;
+
+    private int scoreA;
+    private int scoreB;
 
     private LocalDate dateOfGame;
     private LocalTime timeOfGame;
@@ -29,6 +34,9 @@ public class Game {
     private String location;
     private String stadium;
     private int stadiumCode;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Prognosis> prognoses;
 
     public Game(String landA, String landB, LocalDate dateOfGame, LocalTime timeOfGame, String location, String stadium, int stadiumCode) {
         this.landA = landA;
@@ -38,6 +46,9 @@ public class Game {
         this.location = location;
         this.stadium = stadium;
         this.stadiumCode = stadiumCode;
+
+        this.scoreA = -1;
+        this.scoreB = -1;
     }
 
 }

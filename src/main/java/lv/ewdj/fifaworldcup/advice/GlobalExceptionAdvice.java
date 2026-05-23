@@ -14,9 +14,9 @@ public class GlobalExceptionAdvice {
         return "error/inviteCodeError";
     }
 
-    @ExceptionHandler(RuntimeException.class)
-    public String handleException(RuntimeException ex, Model model) {
-        model.addAttribute("exception", ex);
-        return "error/generalException";
+    @ExceptionHandler(Exception.class)
+    public String handleException(Exception ex, Model model) {
+        model.addAttribute("exception", ex.getMessage());
+        return "error/error";
     }
 }

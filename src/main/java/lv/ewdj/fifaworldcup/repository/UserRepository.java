@@ -1,5 +1,6 @@
 package lv.ewdj.fifaworldcup.repository;
 
+import lv.ewdj.fifaworldcup.model.Team;
 import lv.ewdj.fifaworldcup.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,6 +18,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findUsersByTeamName(String teamName);
 
     Optional<User> findUserByOwningTeamName(String owningTeamName);
+
+    List<User> findAllByTeam(Team team);
 
 //    @Query( """
 //            SELECT u

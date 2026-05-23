@@ -3,6 +3,8 @@ package lv.ewdj.fifaworldcup.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -21,7 +23,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter(AccessLevel.NONE)
+//    @Getter(AccessLevel.NONE)
     @ToString.Exclude
     private Long id;
 
@@ -47,6 +49,12 @@ public class User {
     @ToString.Exclude
     @Setter
     private Team owningTeam;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<Prognosis> prognoses;
+
+    @Setter(AccessLevel.NONE)
+    int points;
 
     public User(
             String username,
@@ -87,5 +95,13 @@ public class User {
 
         this.team = team;
         this.owningTeam = owningTeam;
+    }
+
+    public User(long id) {
+        this.id = id;
+    }
+
+    public void addPoints(int pointsToAdd) {
+        this.points += pointsToAdd;
     }
 }

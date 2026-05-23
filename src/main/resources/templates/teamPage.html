@@ -43,7 +43,7 @@
                 <form th:action="@{/team/user/remove}" method="post">
                     <input type="hidden" name="username" th:value="${user.username}">
                     <input type="hidden" name="teamName" th:value="${team.teamName}">
-                    <button th:text="#{teamPage.owner.removeMember.button}" type="submit"></button>
+                    <button th:text="#{teamPage.owner.removeMember.button}" type="submit" class="remove-button"></button>
                 </form>
             </td>
         </tr>

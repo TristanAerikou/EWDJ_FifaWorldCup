@@ -1,7 +1,28 @@
+
+body {
+    --accent-color: #7e7ecc;
+    --text-color: #40402c;
+
+
+    font-family: Arial, Helvetica, sans-serif;
+    margin-inline: 5rem;
+    background-color: lightgoldenrodyellow;
+    color: var(--text-color)
+}
+
+h1 {
+    font-weight: bold;
+    font-style: italic;
+}
+
 .error {
     color: red;
     display: list-item;
     padding-left: 2rem;
+}
+
+.successMessage {
+    color: green;
 }
 
 label.mendatory::after {
@@ -9,10 +30,49 @@ label.mendatory::after {
     color: red;
 }
 
-.navbar {
+.navbar-inside {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.navbar-outside {
     display: flex;
     flex-direction: column;
+    row-gap: 1rem;
 }
+
+.navbar {
+    border-radius: 0.5rem;
+}
+
+.navbar, .navbar a, .navbar a:visited {
+    background-color: var(--accent-color);
+
+    padding: 1rem;
+    color: lightgoldenrodyellow;
+    text-decoration: none;
+
+}
+
+.navbar a {
+    border-left: black 1px solid;
+    width: 100%;
+}
+
+.navbar a::before {
+    content: ">  ";
+}
+
+
+.navbar p {
+    margin: 0;
+    font-size: large;
+    font-weight: bold;
+}
+
 
 .teamOwner {
     color: rebeccapurple;
@@ -23,6 +83,9 @@ label.mendatory::after {
     content: "(owner) ";
 }
 
+.fullscreen td {
+    width: 100%;
+}
 
 /* TABLE STYLING */
 thead th, tbody td {
@@ -31,19 +94,51 @@ thead th, tbody td {
     /*font-weight: 500;*/
     /*font-size: 13px;*/
     /*color: #1c1c1c;*/
-    background: #f5f5f5;
-    border-bottom:1px solid #d0d0d0;
+    background: rgba(143, 145, 250, 0.77);
+    border-bottom: 1px solid #d0d0d0;
     white-space: nowrap;
 }
+
 thead th {
     border-bottom: solid 5px black;
 }
-thead th:first-child { border-radius: 12px 0 0 0; }
-thead th:last-child  { border-radius: 0 12px 0 0; }
+
+thead th:first-child {
+    border-radius: 12px 0 0 0;
+}
+
+thead th:last-child {
+    border-radius: 0 12px 0 0;
+}
 
 tbody tr {
     border-bottom: 1px solid #e8e8e8;
+    color: var(--text-color);
 }
+
+a, a:visited{
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+a::before {
+    display: inline;
+    content: ">  ";
+}
+
+button {
+    border: none;
+    padding-inline: 1.5rem;
+    padding-block: .5rem;
+    background-color: yellowgreen;
+    border-radius: .25rem;
+    color: var(--text-color)
+}
+
+button.remove-button {
+    background-color: palevioletred;
+}
+
 
 button:hover {
     cursor: pointer;

@@ -4,13 +4,12 @@ import jakarta.validation.constraints.*;
 import lv.ewdj.fifaworldcup.model.Game;
 import lv.ewdj.fifaworldcup.validator.ValidChecksum;
 import lv.ewdj.fifaworldcup.validator.ValidDatePeriod;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 @ValidChecksum(modulo = 97)
-public record InputGameDto(
+public record InputEditGameDto(
 
 //        @NotBlank(message = "{wedstrijd.create.validation.landsBlank}") // clutters the error messages
         @Pattern(regexp = "^[a-zA-Z- ]+$", message = "{wedstrijd.create.validation.landPattern}")
@@ -36,9 +35,14 @@ public record InputGameDto(
         @Min(value = 1000, message = "{wedstrijd.create.validation.stadiumCode}")
         @Max(value = 9999, message = "{wedstrijd.create.validation.stadiumCode}")
         Integer stadiumCode,
-        Integer checksum
+        Integer checksum,
+
+        @Min(value = 0, message = "{wedstrijd.validation.minScore}")
+        Integer scoreA,
+        @Min(value = 0, message = "{wedstrijd.validation.minScore}")
+        Integer scoreB
 ) implements ChecksumValidatable {
-    public static Game dtoToObj(InputGameDto dto) {
+    public static Game dtoToObj(InputEditGameDto dto) {
         return new Game(
                 dto.landA(),
                 dto.landB(),
@@ -48,5 +52,20 @@ public record InputGameDto(
                 dto.stadium(),
                 dto.stadiumCode() != null ? dto.stadiumCode() : -1
         );
+    }
+
+    public static InputEditGameDto objToDto(Game game) {
+        return new InputEditGameDto(
+                game.getLandA(),
+                game.getLandB(),
+                game.getDateOfGame(),
+                game.getTimeOfGame(),
+                game.getLocation(),
+                game.getStadium(),
+                game.getStadiumCode(),
+                null,
+                game.getScoreA() < 0 ?  null : game.getScoreA(),
+                game.getScoreB() <  0 ?  null : game.getScoreB()
+                );
     }
 }

@@ -3,6 +3,7 @@ package lv.ewdj.fifaworldcup.validator;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.NoArgsConstructor;
+import lv.ewdj.fifaworldcup.dto.ChecksumValidatable;
 import lv.ewdj.fifaworldcup.dto.InputGameDto;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
@@ -11,7 +12,7 @@ import java.util.Locale;
 
 @Component
 //@NoArgsConstructor //geen no-args constructor want hierdoor vindt springboottest niet de juiste constructor...
-public class ValidChecksumValidator implements ConstraintValidator<ValidChecksum, InputGameDto> {
+public class ValidChecksumValidator implements ConstraintValidator<ValidChecksum, ChecksumValidatable> {
 
     private int modulo;
 
@@ -27,7 +28,7 @@ public class ValidChecksumValidator implements ConstraintValidator<ValidChecksum
     }
 
     @Override
-    public boolean isValid(InputGameDto value, ConstraintValidatorContext context) {
+    public boolean isValid(ChecksumValidatable value, ConstraintValidatorContext context) {
         Integer stadiumCode = value.stadiumCode();
         Integer checksum = value.checksum();
         if (stadiumCode == null)
@@ -39,7 +40,8 @@ public class ValidChecksumValidator implements ConstraintValidator<ValidChecksum
                             "validation.noChecksum",
                             null,
                             Locale.ENGLISH
-                    ));
+                    )
+            );
             return false;
         }
         if (stadiumCode % modulo != checksum) {

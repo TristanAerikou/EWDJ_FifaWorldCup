@@ -2,29 +2,29 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="#{wedstrijd.create.title}"></title>
+    <title th:text="#{wedstrijd.edit.title}"></title>
     <link rel="stylesheet" th:href="@{/css/style.css}" />
 </head>
 <body>
 
-<h1 th:text="#{wedstrijd.create.title}"></h1>
+<h1 th:text="#{wedstrijd.edit.header(${inputEditGameDto.landA()}, ${inputEditGameDto.landB()})}"></h1>
 
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
-<form th:action="@{/game/create}" th:object="${inputGameDto}" method="post">
-
-    <!--    <div th:if="${#fields.hasErrors()}">-->
-<!--        <ul>-->
-<!--            <li th:each="error: ${#fields.allDetailedErrors()}" th:text="${error}"></li>-->
-<!--        </ul>-->
-<!--    </div>-->
-
+<p th:if="${successMessage != null}" th:text="${successMessage}"></p>
+<form th:action="@{/game/edit/{gameId}(gameId=${gameId})}" th:object="${inputEditGameDto}" method="post">
 
     <p>
         <!--        Land A-->
         <label th:text="#{wedstrijd.create.form.landA}" class="mendatory"> </label>
         <input type="text" th:field="*{landA}" />
         <span th:if="${#fields.hasErrors('landA')}" th:errorclass="error" th:errors="*{landA}"></span>
+
+
+        <!--        Score A-->
+        <label th:text="#{wedstrijd.edit.form.score}" class="mendatory"> </label>
+        <input type="text" th:field="*{scoreA}" />
+        <span th:if="${#fields.hasErrors('scoreA')}" th:errorclass="error" th:errors="*{scoreA}"></span>
     </p>
 
     <p>
@@ -32,6 +32,12 @@
         <label th:text="#{wedstrijd.create.form.landB}" class="mendatory"> </label>
         <input type="text" th:field="*{landB}" />
         <span th:if="${#fields.hasErrors('landB')}" th:errorclass="error" th:errors="*{landB}"></span>
+
+
+        <!--       Score B -->
+        <label th:text="#{wedstrijd.edit.form.score}" class="mendatory"> </label>
+        <input type="text" th:field="*{scoreB}" />
+        <span th:if="${#fields.hasErrors('scoreB')}" th:errorclass="error" th:errors="*{scoreB}"></span>
     </p>
 
     <p>
@@ -75,6 +81,8 @@
         <input type="number" th:field="*{checksum}" />
         <span th:if="${#fields.hasErrors('checksum')}" th:errorclass="error" th:errors="*{checksum}"></span>
     </p>
+
+    <p th:text="#{wedstrijd.edit.form.score.warning}" class="error"></p>
 
     <p>
         <button type="submit" th:text="#{form.submit}"></button>

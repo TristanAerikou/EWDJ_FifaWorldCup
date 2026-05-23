@@ -5,6 +5,7 @@ import lv.ewdj.fifaworldcup.model.Team;
 import lv.ewdj.fifaworldcup.model.User;
 
 public record OutputUserDto(
+        long id,
         String username,
         String firstname,
         String lastname,
@@ -15,6 +16,7 @@ public record OutputUserDto(
 
     public static OutputUserDto objToDto(User user) {
         return new OutputUserDto(
+                user.getId(),
                 user.getUsername(),
                 user.getFirstname(),
                 user.getLastname(),

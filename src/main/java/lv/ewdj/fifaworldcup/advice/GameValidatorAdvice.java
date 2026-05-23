@@ -2,6 +2,7 @@ package lv.ewdj.fifaworldcup.advice;
 
 import lombok.RequiredArgsConstructor;
 import lv.ewdj.fifaworldcup.controller.GameController;
+import lv.ewdj.fifaworldcup.dto.InputGameDto;
 import lv.ewdj.fifaworldcup.validator.GameValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.WebDataBinder;
@@ -14,7 +15,7 @@ public class GameValidatorAdvice {
 
     private final GameValidator  gameValidator;
 
-    @InitBinder
+    @InitBinder("inputGameDto")
     public void initBinder(WebDataBinder binder) {binder.addValidators(gameValidator);}
 
 }

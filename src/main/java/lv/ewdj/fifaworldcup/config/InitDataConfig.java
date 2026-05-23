@@ -1,11 +1,9 @@
 package lv.ewdj.fifaworldcup.config;
 
 import lombok.RequiredArgsConstructor;
-import lv.ewdj.fifaworldcup.model.Game;
-import lv.ewdj.fifaworldcup.model.Role;
-import lv.ewdj.fifaworldcup.model.Team;
-import lv.ewdj.fifaworldcup.model.User;
+import lv.ewdj.fifaworldcup.model.*;
 import lv.ewdj.fifaworldcup.repository.GameRepository;
+import lv.ewdj.fifaworldcup.repository.PrognosisRepository;
 import lv.ewdj.fifaworldcup.repository.TeamRepository;
 import lv.ewdj.fifaworldcup.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -30,6 +28,7 @@ public class InitDataConfig implements CommandLineRunner {
 
     private static final String ADMIN_PASSWORD =
             "$2a$12$0uJ9XULn3l8I2v8FEoKzzu7Py/X0f4R88xkVu7qoSrPKvRKodqLvu";
+    private final PrognosisRepository prognosisRepository;
     // Meteor
 
     @Override
@@ -44,14 +43,18 @@ public class InitDataConfig implements CommandLineRunner {
 
 
         // USERS
-        userRepository.save(new User("RockFromSpace", ADMIN_PASSWORD, Role.ADMIN, "Tristan", "Aerikou"));
+        User user1 = new User("RockFromSpace", ADMIN_PASSWORD, Role.ADMIN, "Tristan", "Aerikou");
 
-        userRepository.save(new User("Mercy", BCRYPTED_PASSWORD, Role.USER, "Sans", "The Skeleton", team1, null));
-        userRepository.save(new User("Spaghetti", BCRYPTED_PASSWORD, Role.USER, "Papyrus", "The Skeleton", team1, team1));
+        User user2 = new User("Mercy", BCRYPTED_PASSWORD, Role.USER, "Sans", "The Skeleton", team1, null);
+        User user3 = new User("Spaghetti", BCRYPTED_PASSWORD, Role.USER, "Papyrus", "The Skeleton", team1, team1);
 
-        userRepository.save(new User("flowie", BCRYPTED_PASSWORD, Role.USER, "flowie", "The Flower"));
+        User user4 = new User("flowie", BCRYPTED_PASSWORD, Role.USER, "flowie", "The Flower");
 
 
+        userRepository.save(user1);
+        userRepository.save(user2);
+        userRepository.save(user3);
+        userRepository.save(user4);
 
         userRepository.save(new User("StrikerGoal99", BCRYPTED_PASSWORD, Role.USER, "Lucas", "Dubois"));
         userRepository.save(new User("OffsideTrap", BCRYPTED_PASSWORD, Role.USER, "Elena", "Russo"));
@@ -75,6 +78,12 @@ public class InitDataConfig implements CommandLineRunner {
         userRepository.save(new User("StoppageTimeWinner", BCRYPTED_PASSWORD, Role.USER, "Nina", "Petrov"));
 
         // GAMES
+        Game game1 = new Game("Sixth Street", "Eighth Street", LocalDate.of(2026, 3, 25), LocalTime.of(12, 30), "The Plaza", "The Stadium", 5);
+        Game game2 = new Game("Ravensburger", "Google", LocalDate.of(2026, 6, 25), LocalTime.of(12, 30), "Disney Land", "The Palace", 33);
+
+        gameRepository.save(game1);
+        gameRepository.save(game2);
+
         gameRepository.save(new Game("Mechelen", "Brugge", LocalDate.of(2026, 5, 28), LocalTime.of(12, 30), "Brugge", "Jan Breydelstadion", 1));
         gameRepository.save(new Game("Anderlecht", "Standard", LocalDate.of(2026, 6, 15), LocalTime.of(14, 30), "Anderlecht", "Lotto Park", 0));
         gameRepository.save(new Game("Gent", "Genk", LocalDate.of(2026, 2, 22), LocalTime.of(18, 0), "Gent", "Ghelamco Arena", 45));
@@ -85,6 +94,16 @@ public class InitDataConfig implements CommandLineRunner {
         gameRepository.save(new Game("Westerlo", "Eupen", LocalDate.of(2026, 7, 1), LocalTime.of(15, 30), "Westerlo", "Het Kuipje", 64));
         gameRepository.save(new Game("Cercle Brugge", "Anderlecht", LocalDate.of(2026, 5, 14), LocalTime.of(13, 30), "Cercle Brugge", "Jan Breydelstadion", 83));
         gameRepository.save(new Game("Standard", "Gent", LocalDate.of(2026, 4, 5), LocalTime.of(20, 45), "Standard", "Stade Maurice Dufrasne", 37));
+
+        // Prognoses
+        // al voorbij
+        prognosisRepository.save(new Prognosis(2, 3, game1, user1));
+        prognosisRepository.save(new Prognosis(1, 1, game1, user2));
+
+        // nog niet voorbij
+        prognosisRepository.save(new Prognosis(5, 1, game2, user2));
+
+
     }
 
 }
