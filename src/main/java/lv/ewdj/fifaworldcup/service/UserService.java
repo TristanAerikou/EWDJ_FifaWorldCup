@@ -1,7 +1,6 @@
 package lv.ewdj.fifaworldcup.service;
 
 import lombok.RequiredArgsConstructor;
-import lv.ewdj.fifaworldcup.dto.InputUserDto;
 import lv.ewdj.fifaworldcup.dto.OutputUserDto;
 import lv.ewdj.fifaworldcup.exceptions.UserNotFoundException;
 import lv.ewdj.fifaworldcup.model.Team;
@@ -29,10 +28,17 @@ public class UserService {
         return optionalUser.map(OutputUserDto::objToDto);
     }
 
-    public void updateUserTeams(String username, Team team, Team owningTeam) {
+    public void updateUserTeam(String username, Team team) {
         User user = repository.findByUsername(username).orElseThrow(() -> new UserNotFoundException(username));
 
         user.setTeam(team);
+
+        repository.save(user);
+    }
+
+    public void updateUserOwningTeam(String username, Team owningTeam) {
+        User user = repository.findByUsername(username).orElseThrow(() -> new UserNotFoundException(username));
+
         user.setOwningTeam(owningTeam);
 
         repository.save(user);

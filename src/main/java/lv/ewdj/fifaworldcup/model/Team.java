@@ -25,4 +25,10 @@ public class Team {
         this.name = name;
         this.inviteCode = inviteCode;
     }
+
+    public  Team(int id, String name, String inviteCode) {
+        this.id = id;
+        this.name = name;
+        this.inviteCode = inviteCode;
+    }
 }

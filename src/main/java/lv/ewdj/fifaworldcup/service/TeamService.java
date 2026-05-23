@@ -1,15 +1,12 @@
 package lv.ewdj.fifaworldcup.service;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lv.ewdj.fifaworldcup.dto.InputTeamDto;
 import lv.ewdj.fifaworldcup.dto.OutputTeamDto;
-import lv.ewdj.fifaworldcup.dto.InputUserDto;
 import lv.ewdj.fifaworldcup.dto.OutputUserDto;
 import lv.ewdj.fifaworldcup.exceptions.InvitecodeException;
 import lv.ewdj.fifaworldcup.exceptions.UserNotFoundException;
 import lv.ewdj.fifaworldcup.model.Team;
-import lv.ewdj.fifaworldcup.model.User;
 import lv.ewdj.fifaworldcup.repository.TeamRepository;
 import org.springframework.stereotype.Service;
 
@@ -31,14 +28,15 @@ public class TeamService {
         return teamOptional.map(OutputTeamDto::objToDto).orElse(null);
     }
 
-    public void saveTeam(InputTeamDto inputTeamDto, String username) {
+    public void createTeam(InputTeamDto inputTeamDto, String username) {
         String inviteCode = generateInviteCode(inputTeamDto.name());
 
         checkInviteCode(inviteCode);
 
         Team team = teamRepository.save(InputTeamDto.dtoToObj(inputTeamDto, inviteCode));
 
-        userService.updateUserTeams(username, team, team);
+        userService.updateUserTeam(username, team);
+        userService.updateUserOwningTeam(username, team);
 
     }
 
@@ -69,5 +67,11 @@ public class TeamService {
         if (optionalTeam.isEmpty()) throw new InvitecodeException("Team with invite code %s not found".formatted(inviteCode), inviteCode);
 
         return OutputTeamDto.objToDto(optionalTeam.get());
+    }
+
+    public void joinTeam(String username, String inviteCode) {
+        Team team = OutputTeamDto.dtoToObj(getTeamByInviteCode(inviteCode));
+
+        userService.updateUserTeam(username, team);
     }
 }

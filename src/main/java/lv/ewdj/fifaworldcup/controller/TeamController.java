@@ -5,9 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lv.ewdj.fifaworldcup.dto.InputInvitecodeDto;
 import lv.ewdj.fifaworldcup.dto.InputTeamDto;
 import lv.ewdj.fifaworldcup.dto.OutputTeamDto;
-import lv.ewdj.fifaworldcup.model.Team;
 import lv.ewdj.fifaworldcup.service.TeamService;
-import org.hibernate.result.Output;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -63,7 +61,7 @@ public class TeamController {
             return "redirect:/team/noTeam";
         }
 
-        teamService.saveTeam(inputTeamDto, principal.getName());
+        teamService.createTeam(inputTeamDto, principal.getName());
 
         return "redirect:/team";
 
@@ -75,7 +73,8 @@ public class TeamController {
 //            InputTeamDto inputTeamDto,
             BindingResult result,
             Model model,
-            RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes,
+            Principal principal) {
 
         if (result.hasErrors()) {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.inputInvitecodeDto", result);
@@ -83,7 +82,7 @@ public class TeamController {
             return "redirect:/team/noTeam";
         }
 
-//        teamService.joinTeam() // TODO vergeet niet dat je al een methode hebt gemaakt in users om team aan te passen ^^
+        teamService.joinTeam(principal.getName(), inputInvitecodeDto.inviteCode());
 
         return  "redirect:/team/myTeam";
     }
