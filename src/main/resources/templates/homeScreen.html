@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="#{home.title}"></title>
-    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
 </head>
 <body>
 <h1 th:text="#{home.welcome}"></h1>
@@ -16,23 +16,30 @@
 <h2 th:text="#{home.table.title}"></h2>
 <table>
     <thead>
-        <tr>
-            <th>teams</th>
-            <th>city</th>
-            <th>stadium</th>
-            <th>Date</th>
-            <th>Time</th>
-        </tr>
+    <tr>
+        <th>teams</th>
+        <th>city</th>
+        <th>stadium</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Prognosis</th>
+    </tr>
     </thead>
     <tbody>
-        <tr th:each="game: ${allGames}">
-            <td th:text="|${game.team1()} vs. ${game.team2()}|"></td>
-            <td th:text="${game.Location()}"></td>
-            <td th:text="${game.stadium()}"></td>
-            <td th:with="df=#{date.format.pattern.extended}"
-                th:text="${#temporals.format(game.dateOfGame(), df)}"></td>
-            <td th:text="${game.timeOfGame()}"></td>
-        </tr>
+    <tr th:each="game: ${allGames}">
+        <td th:text="|${game.team1()} vs. ${game.team2()}|"></td>
+        <td th:text="${game.Location()}"></td>
+        <td th:text="${game.stadium()}"></td>
+        <td th:with="df=#{date.format.pattern.extended}"
+            th:text="${#temporals.format(game.dateOfGame(), df)}"></td>
+        <td th:text="${game.timeOfGame()}"></td>
+        <td>
+            <a th:href="@{/game/prognosis/{gameId}(gameId=${game.id})}">
+                <p th:if="${game.finished()}" th:text="'Edit Prognosis'"></p>
+                <p th:unless="${game.finished()}" th:text="'View Prognosis (game ended)'"></p>
+            </a>
+        </td>
+    </tr>
     </tbody>
 </table>
 </body>

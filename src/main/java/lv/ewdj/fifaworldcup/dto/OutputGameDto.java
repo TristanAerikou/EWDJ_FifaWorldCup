@@ -3,10 +3,13 @@ package lv.ewdj.fifaworldcup.dto;
 import lv.ewdj.fifaworldcup.model.Game;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public record OutputGameDto
         (
+                int id,
+
                 String team1,
                 String team2,
 
@@ -14,11 +17,14 @@ public record OutputGameDto
                 LocalTime timeOfGame,
 
                 String Location,
-                String stadium
+                String stadium,
+                boolean finished
         ) {
 
     public static OutputGameDto objToDto(Game game) {
         return  new OutputGameDto(
+                game.getId(),
+
                 game.getLandA(),
                 game.getLandB(),
 
@@ -26,7 +32,12 @@ public record OutputGameDto
                 game.getTimeOfGame(),
 
                 game.getLocation(),
-                game.getStadium()
+                game.getStadium(),
+
+                LocalDateTime.of(
+                        game.getDateOfGame(),
+                        game.getTimeOfGame()
+                ).isBefore(LocalDateTime.now())
         );
     }
 }
