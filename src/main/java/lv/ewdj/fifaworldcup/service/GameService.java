@@ -66,31 +66,19 @@ public class GameService {
 
 
         // punten per gebruiker
-        List<Prognosis> prognoses = prognosisRepository.findAllByGameId(gameId);
 
         char winnaar = scoreA.equals(scoreB) ? 'D'
                 : scoreA > scoreB ? 'A'
                 : 'B';
 
-        prognoses.forEach(prognosis -> {
-//            int prA = prognosis.getGoalsTeamA();
-//            int prB = prognosis.getGoalsTeamB();
-//            User user = prognosis.getUser();
-//
-//            char prWinnaar = prA == prB ? 'D'
-//                    : prA > prB ? 'A'
-//                    : 'B';
-//
-//            if (prWinnaar == winnaar) { // juiste winnaar of gelijkspel voorspeld
-//                if (scoreA.equals(prA) && scoreB.equals(prB))  // exacte uitlag voorpeld
-//                    user.addPoints(pointsX);
-//                else
-//                    user.addPoints(pointsY);
-//
-//            }
-        });
+        rewardPoints(pointsX, pointsY, scoreA, scoreB, gameId, winnaar);
 
         // bonuspunten binnen team
+        rewardBonusPoints(pointsB, pointsC, scoreA, scoreB, gameId, winnaar);
+
+    }
+
+    private void rewardBonusPoints(int pointsB, int pointsC, Integer scoreA, Integer scoreB, int gameId, char winnaar) {
         teamRepository.findAll().forEach(team -> {
             List<User> usersInTeam = userRepository.findAllByTeam(team);
             List<User> UsersWithExactlyCorrectPrognosis = new ArrayList<>();
@@ -99,32 +87,64 @@ public class GameService {
                 List<Prognosis> prognosisList = prognosisRepository.getPrognosisByGameIdAndUserId(gameId, u.getId());
                 if (!prognosisList.isEmpty()) {
                     Prognosis prognosis = prognosisList.getFirst();
-
+                    switch (evaluatePrognosis(winnaar, scoreA, scoreB, prognosis)) {
+                        case Exactly_Correct -> {
+                            UsersWithExactlyCorrectPrognosis.add(u);
+                            UsersWithCorrectPrognosis.add(u);
+                        }
+                        case Correct -> UsersWithCorrectPrognosis.add(u);
+                    }
                 }
             }
-        });
 
+            if (UsersWithExactlyCorrectPrognosis.size() == 1) {
+                User winner = UsersWithExactlyCorrectPrognosis.getFirst();
+                        winner.addPoints(pointsB);
+                        userRepository.save(winner);
+            }
+            if (UsersWithCorrectPrognosis.size() == 1) {
+                User winner = UsersWithExactlyCorrectPrognosis.getFirst();
+                winner.addPoints(pointsC);
+                userRepository.save(winner);
+            }
+
+        });
+    }
+
+    private void rewardPoints(int pointsX, int pointsY, Integer scoreA, Integer scoreB, int gameId, char winnaar) {
+        List<Prognosis> prognoses = prognosisRepository.findAllByGameId(gameId);
+
+        prognoses.forEach(prognosis -> {
+            User user = prognosis.getUser();
+
+            switch (evaluatePrognosis(winnaar, scoreA, scoreB, prognosis)) {
+                case Exactly_Correct -> user.addPoints(pointsX);
+                case Correct -> user.addPoints(pointsY);
+            }
+            userRepository.save(user);
+        });
     }
 
     // ######################
     // Helpers              #
     // ######################
 
-    private PrognosisResult evaluatePrognosis(int scoreA, int scoreB, Prognosis prognosis) {
+    private PrognosisResult evaluatePrognosis(char winnaar, int scoreA, int scoreB, Prognosis prognosis) {
         int prA = prognosis.getGoalsTeamA();
         int prB = prognosis.getGoalsTeamB();
-        User user = prognosis.getUser();
 
         char prWinnaar = prA == prB ? 'D'
                 : prA > prB ? 'A'
                 : 'B';
 
         if (prWinnaar == winnaar) { // juiste winnaar of gelijkspel voorspeld
-            if (scoreA.equals(prA) && scoreB.equals(prB))  // exacte uitlag voorpeld
-                user.addPoints(pointsX);
+            if (scoreA == prA && scoreB == prB)  // exacte uitlag voorpeld
+                return PrognosisResult.Exactly_Correct;
+//                user.addPoints(pointsX);
             else
-                user.addPoints(pointsY);
-
-        }
+                return PrognosisResult.Correct;
+//                user.addPoints(pointsY);
+        } else
+            return PrognosisResult.Incorrect;
     }
 }

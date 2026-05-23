@@ -35,7 +35,7 @@ public class Game {
     private String stadium;
     private int stadiumCode;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "game")
     private List<Prognosis> prognoses;
 
     public Game(String landA, String landB, LocalDate dateOfGame, LocalTime timeOfGame, String location, String stadium, int stadiumCode) {
@@ -49,6 +49,19 @@ public class Game {
 
         this.scoreA = -1;
         this.scoreB = -1;
+    }
+
+    public Game(String landA, String landB, LocalDate dateOfGame, LocalTime timeOfGame, String location, String stadium, int stadiumCode, int scoreA, int scoreB) {
+        this.landA = landA;
+        this.landB = landB;
+        this.dateOfGame = dateOfGame;
+        this.timeOfGame = timeOfGame;
+        this.location = location;
+        this.stadium = stadium;
+        this.stadiumCode = stadiumCode;
+
+        this.scoreA = scoreA;
+        this.scoreB = scoreB;
     }
 
 }

@@ -24,11 +24,11 @@ public record InputGameDto(
         String landB,
 
         @NotNull(message = "{wedstrijd.create.validation.null}")
-//        @DateTimeFormat(pattern = "dd-MM-yyyy")
+        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
         @ValidDatePeriod()
         LocalDate dateOfGame,
         @NotNull(message = "{wedstrijd.create.validation.null}")
-//        @DateTimeFormat(pattern = "hh-mm")
+        @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
         LocalTime timeOfGame,
 
         String location,

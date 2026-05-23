@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -114,8 +116,13 @@ public class GameController {
         Optional<Game> optionalGame = gameService.getGameById(gameId);
         if (optionalGame.isEmpty()) throw new EntityNotFoundException("Game not found");
 
-        InputEditGameDto inputEditGameDto = InputEditGameDto.objToDto(optionalGame.get());
+        Game game = optionalGame.get();
+        InputEditGameDto inputEditGameDto = InputEditGameDto.objToDto(game);
         model.addAttribute("inputEditGameDto", inputEditGameDto);
+
+        LocalDateTime exactPlayTime = LocalDateTime.of(game.getDateOfGame(), game.getTimeOfGame());
+        Boolean canEditScore = exactPlayTime.isBefore(LocalDateTime.now().minusHours(1));
+        model.addAttribute("canEditScore", canEditScore);
         return "gameEdit";
     }
 

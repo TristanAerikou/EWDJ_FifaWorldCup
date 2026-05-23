@@ -4,6 +4,7 @@ import jakarta.validation.constraints.*;
 import lv.ewdj.fifaworldcup.model.Game;
 import lv.ewdj.fifaworldcup.validator.ValidChecksum;
 import lv.ewdj.fifaworldcup.validator.ValidDatePeriod;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -23,11 +24,11 @@ public record InputEditGameDto(
         String landB,
 
         @NotNull(message = "{wedstrijd.create.validation.null}")
-//        @DateTimeFormat(pattern = "dd-MM-yyyy")
+        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
         @ValidDatePeriod()
         LocalDate dateOfGame,
         @NotNull(message = "{wedstrijd.create.validation.null}")
-//        @DateTimeFormat(pattern = "hh-mm")
+        @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
         LocalTime timeOfGame,
 
         String location,
@@ -50,7 +51,9 @@ public record InputEditGameDto(
                 dto.timeOfGame(),
                 dto.location(),
                 dto.stadium(),
-                dto.stadiumCode() != null ? dto.stadiumCode() : -1
+                dto.stadiumCode() != null ? dto.stadiumCode() : -1,
+                dto.scoreA() != null ? dto.scoreA() : -1,
+                dto.scoreB != null ? dto.scoreB() : -1
         );
     }
 
