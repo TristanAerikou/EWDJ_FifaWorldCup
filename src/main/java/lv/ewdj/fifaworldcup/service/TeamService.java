@@ -7,6 +7,7 @@ import lv.ewdj.fifaworldcup.dto.OutputUserDto;
 import lv.ewdj.fifaworldcup.exceptions.InvitecodeException;
 import lv.ewdj.fifaworldcup.exceptions.UserNotFoundException;
 import lv.ewdj.fifaworldcup.model.Team;
+import lv.ewdj.fifaworldcup.model.User;
 import lv.ewdj.fifaworldcup.repository.TeamRepository;
 import org.springframework.stereotype.Service;
 
@@ -69,9 +70,17 @@ public class TeamService {
         return OutputTeamDto.objToDto(optionalTeam.get());
     }
 
+    public Team getTeamByTeamname(String teamName) {
+        return teamRepository.getTeamsByName(teamName);
+    }
+
     public void joinTeam(String username, String inviteCode) {
         Team team = OutputTeamDto.dtoToObj(getTeamByInviteCode(inviteCode));
 
         userService.updateUserTeam(username, team);
+    }
+
+    public void removeMember(String username) {
+        userService.removeUserFromTeam(username);
     }
 }

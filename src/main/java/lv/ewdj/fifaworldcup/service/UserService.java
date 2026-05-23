@@ -44,6 +44,27 @@ public class UserService {
         repository.save(user);
     }
 
+    public void removeUserFromTeam(String username) {
+        User user = repository.findByUsername(username).orElseThrow(() -> new UserNotFoundException(username));
+
+        user.setTeam(null);
+        user.setOwningTeam(null);
+
+        repository.save(user);
+    }
+
+    public List<OutputUserDto> getUsersByTeamName(String teamName) {
+        return repository.findUsersByTeamName(teamName).stream().map(OutputUserDto::objToDto).toList();
+    }
+
+    public OutputUserDto getUserOwningTeam(String teamName) {
+        return OutputUserDto.objToDto(
+                repository.findUserByOwningTeamName((teamName))
+                        .orElseThrow(() -> new UserNotFoundException("No owner was found for this team. Does this team even exist?")
+                        )
+        );
+    }
+
     //TODO if delete user --> what to do with team
 
     // #### Helper Methods ####

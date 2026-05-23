@@ -2,10 +2,11 @@ package lv.ewdj.fifaworldcup.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lv.ewdj.fifaworldcup.dto.InputInvitecodeDto;
-import lv.ewdj.fifaworldcup.dto.InputTeamDto;
-import lv.ewdj.fifaworldcup.dto.OutputTeamDto;
+import lv.ewdj.fifaworldcup.dto.*;
+import lv.ewdj.fifaworldcup.model.Team;
+import lv.ewdj.fifaworldcup.model.User;
 import lv.ewdj.fifaworldcup.service.TeamService;
+import lv.ewdj.fifaworldcup.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("team")
@@ -20,6 +23,7 @@ import java.security.Principal;
 public class TeamController {
 
     private final TeamService teamService;
+    private final UserService userService;
 
     @GetMapping
     public String redirectToRoute(Model model, Principal principal) {
@@ -88,15 +92,46 @@ public class TeamController {
     }
 
     @GetMapping("myTeam")
-    public String showTeam(Model model, Principal principal) {
+    public String showTeam(InputRemovememberDto inputRemovememberDto, Model model, Principal principal) {
         OutputTeamDto team = teamService.getTeamByUsername(principal.getName());
         if (team == null) {
             return "redirect:/team/noTeam";
         }
+        List<OutputUserDto> users = userService.getUsersByTeamName(team.name());
+        OutputUserDto owner = userService.getUserOwningTeam(team.name());
 
-        model.addAttribute("team", team);
+        OutputFullTeamDto fullTeamDto = new OutputFullTeamDto(
+                team.name(),
+                team.inviteCode(),
+                users,
+                owner,
+                0
+        );
+
+
+        model.addAttribute("team", fullTeamDto);
 
         return "teamPage";
     }
 
+    @PostMapping("user/remove")
+    public String removeMember(InputRemovememberDto inputRemovememberDto) {
+
+        Team team = teamService.getTeamByTeamname(inputRemovememberDto.teamName());
+        if (Objects.equals(inputRemovememberDto.username(), userService.getUserOwningTeam(team.getName()).username())) {
+            throw new IllegalArgumentException("You cannot remove the owner of a team, incidently being yourself.");
+        }
+
+        teamService.removeMember(inputRemovememberDto.username());
+
+        return "redirect:/team/myTeam";
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public String handleIllegalArgumentException(IllegalArgumentException ex, RedirectAttributes redirectAttributes) {
+        // flashattribute ipv model.addattribute door redirect (flash wordt behouden, niet-flash attribuut niet on redirect)
+        redirectAttributes.addFlashAttribute("illArgExc", ex.getMessage());
+
+        return "redirect:/team/myTeam";
+    }
 }

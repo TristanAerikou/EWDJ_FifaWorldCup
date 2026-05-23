@@ -14,6 +14,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByUsername(String username);
 
+    List<User> findUsersByTeamName(String teamName);
+
+    Optional<User> findUserByOwningTeamName(String owningTeamName);
+
 //    @Query( """
 //            SELECT u
 //            FROM User u

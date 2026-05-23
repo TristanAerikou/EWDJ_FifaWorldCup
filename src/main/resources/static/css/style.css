@@ -13,3 +13,38 @@ label.mendatory::after {
     display: flex;
     flex-direction: column;
 }
+
+.teamOwner {
+    color: rebeccapurple;
+    font-weight: bold;
+}
+
+.teamOwner::before {
+    content: "(owner) ";
+}
+
+
+/* TABLE STYLING */
+thead th, tbody td {
+    padding: 10px 16px;
+    text-align: left;
+    /*font-weight: 500;*/
+    /*font-size: 13px;*/
+    /*color: #1c1c1c;*/
+    background: #f5f5f5;
+    border-bottom:1px solid #d0d0d0;
+    white-space: nowrap;
+}
+thead th {
+    border-bottom: solid 5px black;
+}
+thead th:first-child { border-radius: 12px 0 0 0; }
+thead th:last-child  { border-radius: 0 12px 0 0; }
+
+tbody tr {
+    border-bottom: 1px solid #e8e8e8;
+}
+
+button:hover {
+    cursor: pointer;
+}
