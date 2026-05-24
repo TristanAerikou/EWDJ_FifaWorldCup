@@ -24,7 +24,8 @@ public class PrognosisService {
 
     public List<Prognosis> getPrognosisByGameAndUser(int gameId, String username) {
         List<Prognosis> prognosisList = prognosisRepository.findByGameIdAndUserUsername(gameId, username);
-        if (prognosisList.size() > 1) throw new IllegalStateException("You have more than 1 prognosis for this game... That is not normal; please contact an admin.");
+        if (prognosisList.size() > 1)
+            throw new IllegalStateException("You have more than 1 prognosis for this game... That is not normal; please contact an admin.");
         return prognosisList;
     }
 
@@ -34,17 +35,35 @@ public class PrognosisService {
 
         Optional<OutputUserDto> optionalUser = userService.getUserByUsername(username);
         if (optionalUser.isEmpty()) throw new EntityNotFoundException("User not found");
-
         OutputUserDto userDto = optionalUser.get();
 
-        Prognosis prognosis = new Prognosis(
-                prognosisDto.goalsTeamsA(),
-                prognosisDto.goalsTeamsB(),
-                optionalGame.get(),
-                new User(
-                        userDto.id()
-                )
-        );
+        List<Prognosis> existingPrognosisList = prognosisRepository.getPrognosisByGameIdAndUserId(optionalGame.get().getId(), optionalUser.get().id());
+        if (existingPrognosisList.size() > 1)
+            throw new IllegalStateException("You have more than 1 prognosis for this game... That is not normal; please contact an admin.");
+
+
+        Prognosis prognosis;
+        if (!existingPrognosisList.isEmpty()) {
+            prognosis = new Prognosis(
+                    existingPrognosisList.getFirst().getId(),
+                    prognosisDto.goalsTeamsA(),
+                    prognosisDto.goalsTeamsB(),
+                    optionalGame.get(),
+                    new User(
+                            userDto.id()
+                    )
+            );
+        } else {
+            prognosis = new Prognosis(
+                    prognosisDto.goalsTeamsA(),
+                    prognosisDto.goalsTeamsB(),
+                    optionalGame.get(),
+                    new User(
+                            userDto.id()
+                    )
+            );
+        }
+
         prognosisRepository.save(prognosis);
     }
 

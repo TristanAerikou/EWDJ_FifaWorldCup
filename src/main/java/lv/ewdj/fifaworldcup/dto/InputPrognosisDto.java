@@ -1,6 +1,7 @@
 package lv.ewdj.fifaworldcup.dto;
 
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lv.ewdj.fifaworldcup.model.Game;
 import lv.ewdj.fifaworldcup.model.Prognosis;
@@ -9,10 +10,10 @@ import org.jspecify.annotations.Nullable;
 
 public record InputPrognosisDto(
         @Min(0)
-        @NotNull
+        @NotNull(message = "{validation.null}")
         Integer goalsTeamsA,
         @Min(0)
-        @NotNull
+        @NotNull(message = "{validation.null}")
         Integer goalsTeamsB
 
 //        @NotNull Integer gameId,

@@ -43,6 +43,7 @@ public record InputEditGameDto(
         @Min(value = 0, message = "{wedstrijd.validation.minScore}")
         Integer scoreB
 ) implements ChecksumValidatable {
+
     public static Game dtoToObj(InputEditGameDto dto) {
         return new Game(
                 dto.landA(),
@@ -65,7 +66,7 @@ public record InputEditGameDto(
                 game.getTimeOfGame(),
                 game.getLocation(),
                 game.getStadium(),
-                game.getStadiumCode(),
+                game.getStadiumCode() < 0 ? null : game.getStadiumCode(),
                 null,
                 game.getScoreA() < 0 ?  null : game.getScoreA(),
                 game.getScoreB() <  0 ?  null : game.getScoreB()

@@ -38,8 +38,8 @@ public class InitDataConfig implements CommandLineRunner {
         Team team1 = new Team("Team1", "abcdefg1");
         Team team2 = new Team("Team2", "abcdefg2");
 
-        teamRepository.save(team1);
-        teamRepository.save(team2);
+        team1 = teamRepository.save(team1);
+        team2 = teamRepository.save(team2);
 
 
         // USERS
@@ -51,10 +51,10 @@ public class InitDataConfig implements CommandLineRunner {
         User user4 = new User("flowie", BCRYPTED_PASSWORD, Role.USER, "flowie", "The Flower", team2, team2);
 
 
-        userRepository.save(user1);
-        userRepository.save(user2);
-        userRepository.save(user3);
-        userRepository.save(user4);
+        user1 = userRepository.save(user1);
+        user2 = userRepository.save(user2);
+        user3 = userRepository.save(user3);
+        user4 = userRepository.save(user4);
 
         userRepository.save(new User("StrikerGoal99", BCRYPTED_PASSWORD, Role.USER, "Lucas", "Dubois"));
         userRepository.save(new User("OffsideTrap", BCRYPTED_PASSWORD, Role.USER, "Elena", "Russo"));
@@ -81,8 +81,8 @@ public class InitDataConfig implements CommandLineRunner {
         Game game1 = new Game("Sixth Street", "Eighth Street", LocalDate.of(2026, 3, 25), LocalTime.of(12, 30), "The Plaza", "The Stadium", 9797);
         Game game2 = new Game("Ravensburger", "Google", LocalDate.of(2026, 6, 25), LocalTime.of(12, 30), "Disney Land", "The Palace", 9700);
 
-        gameRepository.save(game1);
-        gameRepository.save(game2);
+        game1 = gameRepository.save(game1);
+        game2 = gameRepository.save(game2);
 
         gameRepository.save(new Game("Mechelen", "Brugge", LocalDate.of(2026, 5, 28), LocalTime.of(12, 30), "Brugge", "Jan Breydelstadion", 1111));
         gameRepository.save(new Game("Anderlecht", "Standard", LocalDate.of(2026, 6, 15), LocalTime.of(14, 30), "Anderlecht", "Lotto Park", 1234));

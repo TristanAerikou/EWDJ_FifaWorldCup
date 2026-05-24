@@ -35,4 +35,12 @@ public class Prognosis {
         this.game = game;
         this.user = user;
     }
+
+    public Prognosis(long id, int goalsTeamA, int goalsTeamB, Game game, User user) {
+        this.id = id;
+        this.goalsTeamA = goalsTeamA;
+        this.goalsTeamB = goalsTeamB;
+        this.game = game;
+        this.user = user;
+    }
 }

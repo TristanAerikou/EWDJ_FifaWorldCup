@@ -42,12 +42,18 @@
         <td th:unless="${game.scoreA() < 0 || game.scoreB() < 0}" th:text="|${game.scoreA()} - ${game.scoreB()}|" class="score"></td>
         <td>
             <a th:href="@{/game/prognosis/{gameId}(gameId=${game.id})}">
-                <p th:if="${game.finished}" th:text="'View Prognosis (game ended)'"></p>
+                <p th:if="${game.finished}" >
+                    <span th:text="'View Prognosis'"></span><br/><span th:text="'(game ended)'"> </span>
+                </p>
                 <p th:unless="${game.finished}" th:text="'Edit Prognosis'"></p>
             </a>
         </td>
         <td sec:authorize="hasRole('ADMIN')">
-            <a th:href="@{/game/edit/{gameId}(gameId=${game.id})}">Edit Game or Add scores</a>
+            <a th:href="@{/game/edit/{gameId}(gameId=${game.id})}">
+                <p th:if="${game.finished}" th:text="'Add Scores'"></p>
+                <p th:unless="${game.finished}" th:text="'Edit Game'"></p>
+
+            </a>
         </td>
     </tr>
     </tbody>

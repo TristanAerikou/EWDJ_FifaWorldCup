@@ -11,7 +11,6 @@ public record InputRegistrationDto(
         @Size(min = 4, max = 25)
         String username,
 
-
         @NotBlank
         @Size(min = 4, max = 20)
         String password,

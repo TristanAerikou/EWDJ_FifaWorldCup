@@ -25,7 +25,7 @@ public record OutputGameDto
         ) {
 
     public static OutputGameDto objToDto(Game game) {
-        return  new OutputGameDto(
+        return new OutputGameDto(
                 game.getId(),
 
                 game.getLandA(),
@@ -37,10 +37,11 @@ public record OutputGameDto
                 game.getLocation(),
                 game.getStadium(),
 
-                LocalDateTime.of(
-                        game.getDateOfGame(),
-                        game.getTimeOfGame()
-                ).isBefore(LocalDateTime.now()),
+                LocalDateTime.now().isAfter(LocalDateTime.of(
+                                game.getDateOfGame(),
+                                game.getTimeOfGame()
+                        ).minusHours(1)
+                ),
 
                 game.getScoreA(),
                 game.getScoreB()

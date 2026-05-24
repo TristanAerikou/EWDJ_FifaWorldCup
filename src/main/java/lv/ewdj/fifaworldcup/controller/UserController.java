@@ -23,11 +23,11 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping
-    public String listUser(Model model) {
-        model.addAttribute("allUsers", userService.getAllUsers());
-        return "usersOverview";
-    }
+//    @GetMapping
+//    public String listUser(Model model) {
+//        model.addAttribute("allUsers", userService.getAllUsers());
+//        return "usersOverview";
+//    }
 
     @GetMapping("register")
     public String registerUser(Model model, InputRegistrationDto inputRegistrationDto, Principal principal) {
@@ -48,7 +48,7 @@ public class UserController {
         }
 
         try {
-        userService.registerUser(inputRegistrationDto);
+            userService.registerUser(inputRegistrationDto);
         } catch (UserExistsException e) {
             log.error(e.getMessage());
             model.addAttribute("userExists", true);

@@ -85,6 +85,9 @@ public class GameController {
 
         List<Prognosis> prognosisList = prognosisService.getPrognosisByGameAndUser(id, principal.getName());
         if (!prognosisList.isEmpty()) {
+            // hoe de .html pagina eruitziet hangt af van de game. Om minder if-checks te doen in de controller,
+            // worden beide mogelijke nodige attributen aan het model gehanden, en de .html gebruikt degene die
+            // het nodig heeft.
             model.addAttribute("prognosis", OutputPrognosisDto.objToDto(prognosisList.getFirst()));
             model.addAttribute("inputPrognosisDto", InputPrognosisDto.objToDto(prognosisList.getFirst()));
         }
@@ -102,6 +105,11 @@ public class GameController {
             RedirectAttributes redirectAttributes
     ) {
         if (result.hasErrors()) {
+            gameService.getGameById(gameId)
+                    .map(OutputGameDto::objToDto)
+                    .ifPresent(dto ->
+                            model.addAttribute("game", dto)
+                    );
             return "prognosisView";
         }
 
@@ -121,7 +129,7 @@ public class GameController {
         model.addAttribute("inputEditGameDto", inputEditGameDto);
 
         LocalDateTime exactPlayTime = LocalDateTime.of(game.getDateOfGame(), game.getTimeOfGame());
-        Boolean canEditScore = exactPlayTime.isBefore(LocalDateTime.now().minusHours(1));
+        boolean canEditScore = LocalDateTime.now().isAfter(exactPlayTime);
         model.addAttribute("canEditScore", canEditScore);
         return "gameEdit";
     }

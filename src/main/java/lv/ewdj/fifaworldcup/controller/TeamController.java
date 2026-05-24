@@ -66,6 +66,9 @@ public class TeamController {
             RedirectAttributes redirectAttributes) {
 
         if (result.hasErrors()) {
+            // Waarom Redirect? Heeft te maken met het feit dat /team/noTeam twee dto's verwacht, waarvan deze methode
+            // maar één meegeeft. Ook Moet BindingResult van deze dto meegegeven worden doordat SpringBoot de dto met de
+            // BindingResult samen behandelt.
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.inputTeamDto", result);
             redirectAttributes.addFlashAttribute("inputTeamDto", inputTeamDto);
             return "redirect:/team/noTeam";

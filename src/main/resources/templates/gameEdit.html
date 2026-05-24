@@ -21,7 +21,7 @@
         <span th:if="${#fields.hasErrors('landA')}" th:errorclass="error" th:errors="*{landA}"></span>
 
         <!--        Score A-->
-        <span th:if="canEditScore">
+        <span th:if="${canEditScore}">
             <label th:text="#{wedstrijd.edit.form.score}" class="mendatory"> </label>
             <input type="number" th:field="*{scoreA}"/>
             <span th:if="${#fields.hasErrors('scoreA')}" th:errorclass="error" th:errors="*{scoreA}"></span>
@@ -36,7 +36,7 @@
 
 
         <!--       Score B -->
-        <span th:if="canEditScore">
+        <span th:if="${canEditScore}">
 
             <label th:text="#{wedstrijd.edit.form.score}" class="mendatory"> </label>
             <input type="number" th:field="*{scoreB}"/>

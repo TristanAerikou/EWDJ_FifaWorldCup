@@ -2,17 +2,25 @@ package lv.ewdj.fifaworldcup.config;
 
 import lv.ewdj.fifaworldcup.dto.OutputGameDto;
 import lv.ewdj.fifaworldcup.helpers.helperVariables;
+import lv.ewdj.fifaworldcup.model.Game;
 import lv.ewdj.fifaworldcup.service.GameService;
+import lv.ewdj.fifaworldcup.service.UserService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
@@ -30,30 +38,24 @@ class SecurityTest {
     @MockitoBean
     private GameService gameService;
 
-    @MockitoBean
-    UserDetailsService userDetailsService;
-
-    //TODO test voor elk pad of de juiste rollen eraan kunnen (en dat de verkeerde rollen er niet aankunnen)
-
-    @Test
-    void AccessWithUserRole() throws Exception {
-
-        List<OutputGameDto> expectedGames = helperVariables.provideExpectedGames();
-
-        Mockito.when(gameService.findAllGames()).thenReturn(expectedGames);
-
-        //TODO verander `.with(...)` naar oplossing zoals in vb-project;
-        // je kunt namelijk wél `when(userService.findByUsername("user")).thenReturn(normalUser);` doen aangezien de UserDetailsService weliswaar een UserService gebruikt.
-
-        mockMvc.perform(get("/home")
-                        .with(user("user").roles("USER")))
+    @ParameterizedTest
+    @CsvSource({
+            "/game/allGames, homeScreen",
+            "/public, publicRanking",
+    })
+    void AccessWithUserRole(String url, String expectedView) throws Exception {
+        mockMvc.perform(get(url)
+                        .with(user("user").roles("USER"))
+                )
                 .andExpect(status().isOk())
-                .andExpect(view().name("homeScreen"))
-                .andExpect(model().attributeExists("allGames"))
-                .andExpect(model().attribute("allGames", expectedGames));
+                .andExpect(view().name(expectedView));
     }
-    @Test
 
+    @ParameterizedTest
+    @CsvSource({
+            "/game/allGames, homeScreen",
+            "game/prognosis/2, prognosisView"
+    })
     void noAccessWithWrongRole() throws Exception {
         mockMvc.perform(get("/home")
                         .with(user("user").roles("NO_USER")))
@@ -70,13 +72,15 @@ class SecurityTest {
     @Test
     void AdminAccessWithAdminRole() throws Exception {
         mockMvc.perform(get("/game/create")
-                        .with(user("user").roles("ADMIN")))
+                        .with(user("user").roles("ADMIN"))
+                )
                 .andExpect(status().isOk());
     }
 
     @Test
     void noAccessAnonymous() throws Exception {
-        mockMvc.perform(get("/home"))
+        mockMvc.perform(get("/game/allGames"))
+                .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/login"));
     }
 
