@@ -8,6 +8,7 @@ import lv.ewdj.fifaworldcup.model.User;
 import lv.ewdj.fifaworldcup.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,7 +55,10 @@ public class UserService {
     }
 
     public List<OutputUserDto> getUsersByTeamName(String teamName) {
-        return repository.findUsersByTeamName(teamName).stream().map(OutputUserDto::objToDto).toList();
+        return repository.findUsersByTeamName(teamName).stream()
+                .map(OutputUserDto::objToDto)
+                .sorted(Comparator.comparing(OutputUserDto::points).reversed())
+                .toList();
     }
 
     public OutputUserDto getUserOwningTeam(String teamName) {

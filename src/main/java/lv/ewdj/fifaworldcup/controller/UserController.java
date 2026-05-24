@@ -1,6 +1,7 @@
 package lv.ewdj.fifaworldcup.controller;
 
 import lombok.RequiredArgsConstructor;
+import lv.ewdj.fifaworldcup.dto.InputRegistrationDto;
 import lv.ewdj.fifaworldcup.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,11 @@ public class UserController {
     public String listUser(Model model) {
         model.addAttribute("allUsers", userService.getAllUsers());
         return "usersOverview";
+    }
+
+    @GetMapping("register")
+    public String registerUser(Model model, InputRegistrationDto inputRegistrationDto) {
+        return "registerUser";
     }
 
 }

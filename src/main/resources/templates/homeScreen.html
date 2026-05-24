@@ -25,6 +25,7 @@
         <th>stadium</th>
         <th>Date</th>
         <th>Time</th>
+        <th>Score</th>
         <th>Prognosis</th>
         <th sec:authorize="hasRole('ADMIN')"></th>
     </tr>
@@ -37,6 +38,8 @@
         <td th:with="df=#{date.format.pattern.extended}"
             th:text="${#temporals.format(game.dateOfGame, df)}"></td>
         <td th:text="${game.timeOfGame}"></td>
+        <td th:if="${game.scoreA() < 0 || game.scoreB() < 0}"></td>
+        <td th:unless="${game.scoreA() < 0 || game.scoreB() < 0}" th:text="|${game.scoreA()} - ${game.scoreB()}|" class="score"></td>
         <td>
             <a th:href="@{/game/prognosis/{gameId}(gameId=${game.id})}">
                 <p th:if="${game.finished}" th:text="'View Prognosis (game ended)'"></p>

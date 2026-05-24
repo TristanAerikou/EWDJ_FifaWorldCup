@@ -18,23 +18,30 @@
 </div>
 
 <div>
+    <p th:text="#{teamPage.totalScore(${totalScore})}"></p>
+
     <h3 th:text="#{teamPage.members.header}"></h3>
     <p th:if="${illArgExc}" th:text="${illArgExc}" class="error"></p>
+
     <table>
         <thead>
         <tr>
+            <th th:text="#{teamPage.members.rank.header}"></th>
             <th th:text="#{teamPage.members.username.header}"></th>
             <th th:text="#{teamPage.members.firstname.header}"></th>
             <th th:text="#{teamPage.members.lastname.header}"></th>
+            <th th:text="#{teamPage.members.score.header}"></th>
             <th th:if="${username == team.owner.username}" th:text="#{teamPage.owner.removeMember.header}"></th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="user, iter: ${team.users()}">
+            <td th:text="${iter.count}"></td>
             <td th:if="${user.username == team.owner.username}" th:text="${user.username}" class="teamOwner"></td>
             <td th:unless="${user.username == team.owner.username}" th:text="${user.username}"></td>
             <td th:text="${user.firstname}"></td>
             <td th:text="${user.lastname}"></td>
+            <td th:text="${user.points()}"></td>
             <td th:if="${username == team.owner.username}">
 <!--
         SpringBoot Magie: key/value (username: "...) wordt doorgestuurd naar de controller. Deze kijkt

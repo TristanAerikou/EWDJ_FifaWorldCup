@@ -139,12 +139,12 @@ public class GameController {
             return "gameEdit";
         }
 
-        gameService.updateGame(inputEditGameDto, gameId);
         if (inputEditGameDto.scoreA() != null && inputEditGameDto.scoreB() != null) {
             gameService.updatePoints(
                     pointsX, pointsY, pointsB, pointsC,
                     inputEditGameDto.scoreA(), inputEditGameDto.scoreB(), gameId);
         }
+        gameService.updateGame(inputEditGameDto, gameId);
 
         redirectAttributes.addFlashAttribute("successMessage", successMessage);
         return "redirect:/game/allGames";

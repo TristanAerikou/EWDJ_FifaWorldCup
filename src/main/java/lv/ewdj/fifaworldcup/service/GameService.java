@@ -60,6 +60,14 @@ public class GameService {
     public void updatePoints(
             int pointsX, int pointsY, int pointsB, int pointsC,
             Integer scoreA, Integer scoreB, int gameId) {
+
+        Optional<Game> optionalGame = getGameById(gameId);
+        if (optionalGame.isEmpty()) throw new EntityNotFoundException("Game not found");
+
+        Game game = optionalGame.get();
+        if (game.getScoreA() == scoreA && game.getScoreB() == scoreB)
+            return;
+
         /*
             Deze methode spreekt direct de repositories aan omdat hier dure & ingewikkelde bewerkingen gebeuren.
          */
@@ -99,11 +107,11 @@ public class GameService {
 
             if (UsersWithExactlyCorrectPrognosis.size() == 1) {
                 User winner = UsersWithExactlyCorrectPrognosis.getFirst();
-                        winner.addPoints(pointsB);
-                        userRepository.save(winner);
+                winner.addPoints(pointsB);
+                userRepository.save(winner);
             }
             if (UsersWithCorrectPrognosis.size() == 1) {
-                User winner = UsersWithExactlyCorrectPrognosis.getFirst();
+                User winner = UsersWithCorrectPrognosis.getFirst();
                 winner.addPoints(pointsC);
                 userRepository.save(winner);
             }
@@ -118,8 +126,14 @@ public class GameService {
             User user = prognosis.getUser();
 
             switch (evaluatePrognosis(winnaar, scoreA, scoreB, prognosis)) {
-                case Exactly_Correct -> user.addPoints(pointsX);
-                case Correct -> user.addPoints(pointsY);
+                case Exactly_Correct -> {
+                    user.addPoints(pointsX);
+
+                }
+                case Correct -> {
+                    user.addPoints(pointsY);
+
+                }
             }
             userRepository.save(user);
         });

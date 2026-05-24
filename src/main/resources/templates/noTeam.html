@@ -28,6 +28,8 @@
 
 <div>
     <h3 th:text="#{noTeam.create.heading}"></h3>
+    <p th:if="${duplEntryExc}" th:text="${duplEntryExc}" class="error"></p>
+
     <form th:action="@{/team/create}" th:object="${inputTeamDto}" method="post">
         <p>
             <!--        Team Name -->

@@ -18,7 +18,10 @@ public record OutputGameDto
 
                 String Location,
                 String stadium,
-                boolean finished
+                boolean finished,
+
+                int scoreA,
+                int scoreB
         ) {
 
     public static OutputGameDto objToDto(Game game) {
@@ -37,7 +40,10 @@ public record OutputGameDto
                 LocalDateTime.of(
                         game.getDateOfGame(),
                         game.getTimeOfGame()
-                ).isBefore(LocalDateTime.now())
+                ).isBefore(LocalDateTime.now()),
+
+                game.getScoreA(),
+                game.getScoreB()
         );
     }
 }

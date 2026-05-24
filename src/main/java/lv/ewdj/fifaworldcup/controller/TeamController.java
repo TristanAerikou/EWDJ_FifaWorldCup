@@ -7,6 +7,9 @@ import lv.ewdj.fifaworldcup.model.Team;
 import lv.ewdj.fifaworldcup.model.User;
 import lv.ewdj.fifaworldcup.service.TeamService;
 import lv.ewdj.fifaworldcup.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,6 +27,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class TeamController {
 
+    private static final Logger log = LoggerFactory.getLogger(TeamController.class);
     private final TeamService teamService;
     private final UserService userService;
 
@@ -97,9 +103,9 @@ public class TeamController {
         if (team == null) {
             return "redirect:/team/noTeam";
         }
+
         List<OutputUserDto> users = userService.getUsersByTeamName(team.name());
         OutputUserDto owner = userService.getUserOwningTeam(team.name());
-
         OutputFullTeamDto fullTeamDto = new OutputFullTeamDto(
                 team.name(),
                 team.inviteCode(),
@@ -107,9 +113,13 @@ public class TeamController {
                 owner,
                 0
         );
-
-
         model.addAttribute("team", fullTeamDto);
+
+        int totalScore = 0;
+        for (OutputUserDto user : users) {
+            totalScore += user.points();
+        }
+        model.addAttribute("totalScore", totalScore);
 
         return "teamPage";
     }
@@ -130,8 +140,21 @@ public class TeamController {
     @ExceptionHandler(IllegalArgumentException.class)
     public String handleIllegalArgumentException(IllegalArgumentException ex, RedirectAttributes redirectAttributes) {
         // flashattribute ipv model.addattribute door redirect (flash wordt behouden, niet-flash attribuut niet on redirect)
+        ex.printStackTrace();
         redirectAttributes.addFlashAttribute("illArgExc", ex.getMessage());
 
         return "redirect:/team/myTeam";
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public String handleDuplicateEntry(DataIntegrityViolationException ex, RedirectAttributes redirectAttributes) {
+
+        log.error(ex.getMessage(), ex);
+
+       if (ex.getMessage().toLowerCase().contains("duplicate entry")) {
+           redirectAttributes.addFlashAttribute("duplEntryExc", "This team already exists.");
+       }
+
+        return "redirect:/team/noTeam";
     }
 }

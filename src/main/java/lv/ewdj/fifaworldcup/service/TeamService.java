@@ -11,6 +11,7 @@ import lv.ewdj.fifaworldcup.model.User;
 import lv.ewdj.fifaworldcup.repository.TeamRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -82,5 +83,9 @@ public class TeamService {
 
     public void removeMember(String username) {
         userService.removeUserFromTeam(username);
+    }
+
+    public List<Team> getTopTenTeams() {
+        return teamRepository.findTopTenTeams();
     }
 }

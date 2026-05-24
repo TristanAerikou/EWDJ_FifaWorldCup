@@ -30,6 +30,13 @@ label.mendatory::after {
     color: red;
 }
 
+.score {
+    align-self: center;
+    justify-self: center;
+    margin-inline: auto;
+    text-align: center;
+}
+
 .navbar-inside {
     display: flex;
     flex-direction: row;

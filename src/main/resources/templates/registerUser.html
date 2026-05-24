@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{register.title}"></title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+<h1 th:text="#{register.header}"></h1>
+
+<form th:action="@{/user/register}" th:object="${inputRegistrationDto}" method="post">
+    <p>
+        <!--        Land A-->
+        <label th:text="#{wedstrijd.create.form.landA}" class="mendatory"> </label>
+        <input type="text" th:field="*{landA}" />
+        <span th:if="${#fields.hasErrors('landA')}" th:errorclass="error" th:errors="*{landA}"></span>
+    </p>
+
+</form>
+</body>
+</html>

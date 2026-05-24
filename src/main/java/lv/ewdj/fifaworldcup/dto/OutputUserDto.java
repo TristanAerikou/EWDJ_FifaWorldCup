@@ -11,7 +11,8 @@ public record OutputUserDto(
         String lastname,
         Team team,
         Team owningTeam,
-        Role role
+        Role role,
+        int points
 ) {
 
     public static OutputUserDto objToDto(User user) {
@@ -22,7 +23,8 @@ public record OutputUserDto(
                 user.getLastname(),
                 user.getTeam(),
                 user.getOwningTeam(),
-                user.getRole()
+                user.getRole(),
+                user.getPoints()
         );
     }
 }
