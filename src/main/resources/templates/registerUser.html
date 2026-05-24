@@ -10,13 +10,49 @@
 <body>
 <h1 th:text="#{register.header}"></h1>
 
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
 <form th:action="@{/user/register}" th:object="${inputRegistrationDto}" method="post">
     <p>
-        <!--        Land A-->
-        <label th:text="#{wedstrijd.create.form.landA}" class="mendatory"> </label>
-        <input type="text" th:field="*{landA}" />
-        <span th:if="${#fields.hasErrors('landA')}" th:errorclass="error" th:errors="*{landA}"></span>
+        <!--        username-->
+        <label th:text="#{register.username}" class="mendatory"> </label>
+        <input type="text" th:field="*{username}" />
+        <span th:if="${#fields.hasErrors('username')}" th:errorclass="error" th:errors="*{username}"></span>
+        <span th:if="${userExists}" th:class="error"  th:text="#{register.username.exists}"></span>
     </p>
+
+    <p>
+        <!--        password-->
+        <label th:text="#{register.password}" class="mendatory"> </label>
+        <input type="text" th:field="*{password}" />
+        <span th:if="${#fields.hasErrors('password')}" th:errorclass="error" th:errors="*{password}"></span>
+    </p>
+
+    <p>
+        <!--        confirmPassword-->
+        <label th:text="#{register.confirmPassword}" class="mendatory"> </label>
+        <input type="text" th:field="*{confirmPassword}" />
+        <span th:if="${#fields.hasErrors('confirmPassword')}" th:errorclass="error" th:errors="*{confirmPassword}"></span>
+    </p>
+
+    <p>
+        <!--        firstname-->
+        <label th:text="#{register.firstname}" class="mendatory"> </label>
+        <input type="text" th:field="*{firstname}" />
+        <span th:if="${#fields.hasErrors('firstname')}" th:errorclass="error" th:errors="*{firstname}"></span>
+    </p>
+
+    <p>
+        <!--        lastname-->
+        <label th:text="#{register.lastname}" class="mendatory"> </label>
+        <input type="text" th:field="*{lastname}" />
+        <span th:if="${#fields.hasErrors('lastname')}" th:errorclass="error" th:errors="*{lastname}"></span>
+    </p>
+
+    <p>
+        <button type="submit" th:text="#{form.submit}"></button>
+    </p>
+
 
 </form>
 </body>

@@ -4,11 +4,13 @@ import lombok.RequiredArgsConstructor;
 import lv.ewdj.fifaworldcup.model.Role;
 import lv.ewdj.fifaworldcup.model.User;
 import lv.ewdj.fifaworldcup.repository.UserRepository;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;

@@ -19,16 +19,16 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/login/**", "/css/**", "/403/**", "/error").permitAll()
+                        .requestMatchers("/login/**", "/css/**", "/403/**", "/error", "/public/**", "/", "/user/register").permitAll()
                         .requestMatchers("/game/create", "/game/edit/**").hasRole("ADMIN")
                         .anyRequest().hasAnyRole("USER", "ADMIN")
 
                 ).formLogin(form -> form
-                        .defaultSuccessUrl("/", false)
+                        .defaultSuccessUrl("/public", false)
                 )
 
                 .logout(logout -> logout
-                        .logoutSuccessUrl("/")
+                        .logoutSuccessUrl("/public")
                 )
 
                 .exceptionHandling(handling -> handling

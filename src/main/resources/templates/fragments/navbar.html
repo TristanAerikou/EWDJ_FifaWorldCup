@@ -13,12 +13,11 @@
         <a th:href="@{/game/allGames}" th:text="#{navbar.anchor.allGames}"></a>
 
         <a th:href="@{/team}" sec:authorize="isAuthenticated()" th:text="#{navbar.anchor.team}"></a>
-        <a sec:authorize="isAuthenticated()" th:text="#{navbar.anchor.predictions}"></a>
 
         <a th:href="@{/game/create}" sec:authorize="hasRole('ADMIN')" th:text="#{navbar.anchor.manageGames}"></a>
 
-        <a th:href="@{/user/register}" sec:authorize="isAnonymous()" th:text="#{navbar.anchor.login}"></a>
-        <a th:href="@{/login}" sec:authorize="isAnonymous()" th:text="#{navbar.anchor.register}"></a>
+        <a th:href="@{/user/register}" sec:authorize="isAnonymous()" th:text="#{navbar.anchor.register}"></a>
+        <a th:href="@{/login}" sec:authorize="isAnonymous()" th:text="#{navbar.anchor.login}"></a>
         <a th:href="@{/logout}" sec:authorize="isAuthenticated()" th:text="#{navbar.anchor.logout}"></a>
 
     </div>

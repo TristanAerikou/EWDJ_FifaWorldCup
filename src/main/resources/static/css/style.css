@@ -90,8 +90,12 @@ label.mendatory::after {
     content: "(owner) ";
 }
 
-.fullscreen td {
+table.fullscreen {
     width: 100%;
+}
+
+.small{
+    width: auto; !important;
 }
 
 /* TABLE STYLING */

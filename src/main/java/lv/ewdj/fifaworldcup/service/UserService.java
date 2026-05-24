@@ -1,11 +1,17 @@
 package lv.ewdj.fifaworldcup.service;
 
 import lombok.RequiredArgsConstructor;
+import lv.ewdj.fifaworldcup.dto.InputRegistrationDto;
 import lv.ewdj.fifaworldcup.dto.OutputUserDto;
+import lv.ewdj.fifaworldcup.exceptions.UserExistsException;
 import lv.ewdj.fifaworldcup.exceptions.UserNotFoundException;
+import lv.ewdj.fifaworldcup.model.Role;
 import lv.ewdj.fifaworldcup.model.Team;
 import lv.ewdj.fifaworldcup.model.User;
 import lv.ewdj.fifaworldcup.repository.UserRepository;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -15,6 +21,8 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UserService {
+
+    private final PasswordEncoder encoder;
 
     private final UserRepository repository;
 
@@ -69,7 +77,22 @@ public class UserService {
         );
     }
 
-    //TODO if delete user --> what to do with team
+    public void registerUser(InputRegistrationDto dto) {
+        if (repository.existsByUsername(dto.username())) {
+            throw new UserExistsException();
+        }
+
+
+        User user = new User(
+                dto.username(),
+                encoder.encode(dto.password()),
+                Role.USER,
+                dto.firstname(),
+                dto.lastname()
+        );
+
+        repository.save(user);
+    }
 
     // #### Helper Methods ####
 }

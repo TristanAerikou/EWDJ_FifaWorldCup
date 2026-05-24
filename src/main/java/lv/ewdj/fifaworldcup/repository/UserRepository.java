@@ -21,6 +21,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findAllByTeam(Team team);
 
+    boolean existsByUsername(String username);
+
 //    @Query( """
 //            SELECT u
 //            FROM User u
