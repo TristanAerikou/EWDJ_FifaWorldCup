@@ -1,7 +1,12 @@
 package lv.ewdj.fifaworldcup.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
+import lv.ewdj.fifaworldcup.util.LocalDateDeserializer;
+import lv.ewdj.fifaworldcup.util.LocalDateSerializer;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonSerialize;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -19,6 +24,7 @@ public class Game {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    @Getter(AccessLevel.NONE)
     @Setter
+    @JsonProperty("game_id")
     private int id;
 
     // De hele applicatie werd in het engels geschreven... buiten deze attributen. Oops, was vergeten dat 'land' geen Engels was.
@@ -28,6 +34,8 @@ public class Game {
     private int scoreA;
     private int scoreB;
 
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate dateOfGame;
     private LocalTime timeOfGame;
 
