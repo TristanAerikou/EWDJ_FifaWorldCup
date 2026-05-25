@@ -22,7 +22,6 @@ import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.validation.Errors;
-import org.springframework.validation.Validator;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -77,7 +76,7 @@ class GameControllerTest {
 
         List<OutputGameDto> expectedGames = helperVariables.provideExpectedGames();
 
-        Mockito.when(gameService.findAllGames()).thenReturn(expectedGames);
+        Mockito.when(gameService.findAllGamesDtos()).thenReturn(expectedGames);
 
         mockMvc.perform(get("/game/allGames"))
                 .andExpect(status().isOk())

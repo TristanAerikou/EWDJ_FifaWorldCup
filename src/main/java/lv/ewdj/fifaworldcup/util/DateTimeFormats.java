@@ -7,7 +7,7 @@ public final class DateTimeFormats {
     private DateTimeFormats() {}
 
     public static final DateTimeFormatter DATE_FORMATTER =
-            DateTimeFormatter.ofPattern("yyy-MM-dd");
+            DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     public static final DateTimeFormatter TIME_FORMATTER =
             DateTimeFormatter.ofPattern("HH:mm");

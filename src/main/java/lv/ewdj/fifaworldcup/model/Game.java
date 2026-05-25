@@ -1,10 +1,13 @@
 package lv.ewdj.fifaworldcup.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 import lv.ewdj.fifaworldcup.util.LocalDateDeserializer;
 import lv.ewdj.fifaworldcup.util.LocalDateSerializer;
+import lv.ewdj.fifaworldcup.util.LocalTimeDeserializer;
+import lv.ewdj.fifaworldcup.util.LocalTimeSerializer;
 import tools.jackson.databind.annotation.JsonDeserialize;
 import tools.jackson.databind.annotation.JsonSerialize;
 
@@ -37,6 +40,8 @@ public class Game {
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate dateOfGame;
+    @JsonSerialize(using = LocalTimeSerializer.class)
+    @JsonDeserialize(using = LocalTimeDeserializer.class)
     private LocalTime timeOfGame;
 
     private String location;
@@ -44,6 +49,7 @@ public class Game {
     private int stadiumCode;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "game")
+    @JsonIgnore
     private List<Prognosis> prognoses;
 
     public Game(String landA, String landB, LocalDate dateOfGame, LocalTime timeOfGame, String location, String stadium, int stadiumCode) {

@@ -1,25 +1,23 @@
 package lv.ewdj.fifaworldcup.util;
 
 
-import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeParseException;
-
 import tools.jackson.core.JsonParser;
 import tools.jackson.databind.DeserializationContext;
 import tools.jackson.databind.ValueDeserializer;
 
-public class LocalDateDeserializer extends ValueDeserializer<LocalDate> {
+import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
+
+public class LocalTimeDeserializer extends ValueDeserializer<LocalTime> {
 
     @Override
-    public LocalDate deserialize(JsonParser p, DeserializationContext ctxt) throws RuntimeException {
+    public LocalTime deserialize(JsonParser p, DeserializationContext ctxt) throws RuntimeException {
         String valueAsString = p.getValueAsString();
         if (valueAsString == null || valueAsString.isBlank()) {
             return null;
         }
         try {
-            return LocalDate.parse(valueAsString, DateTimeFormats.DATE_FORMATTER);
+            return LocalTime.parse(valueAsString, DateTimeFormats.TIME_FORMATTER);
         } catch (DateTimeParseException e) {
             throw new RuntimeException("Invalid date format: %s".formatted(valueAsString), e);
         }

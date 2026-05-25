@@ -85,6 +85,7 @@ public class InitDataConfig implements CommandLineRunner {
         game2 = gameRepository.save(game2);
 
         gameRepository.save(new Game("Mechelen", "Brugge", LocalDate.of(2026, 5, 28), LocalTime.of(12, 30), "Brugge", "Jan Breydelstadion", 1111));
+        gameRepository.save(new Game("Oddysee", "Hogeschool Gent", LocalDate.of(2026, 5, 28), LocalTime.of(12, 30), "Brugge", "Jan Breydelstadion", 1111));
         gameRepository.save(new Game("Anderlecht", "Standard", LocalDate.of(2026, 6, 15), LocalTime.of(14, 30), "Anderlecht", "Lotto Park", 1234));
         gameRepository.save(new Game("Gent", "Genk", LocalDate.of(2026, 2, 22), LocalTime.of(18, 0), "Gent", "Ghelamco Arena", 4545));
         gameRepository.save(new Game("Antwerp", "Beerschot", LocalDate.of(2026, 2, 10), LocalTime.of(20, 30), "Antwerp", "Bosuilstadion", 2121));

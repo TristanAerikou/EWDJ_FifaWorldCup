@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -50,7 +49,7 @@ public class GameController {
 
     @GetMapping("allGames")
     public String showallGames(Model model) {
-        List<OutputGameDto> gameDtos = gameService.findAllGames();
+        List<OutputGameDto> gameDtos = gameService.findAllGamesDtos();
         model.addAttribute("allGames", gameDtos);
         return "homeScreen";
     }

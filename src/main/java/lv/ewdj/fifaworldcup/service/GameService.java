@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lv.ewdj.fifaworldcup.dto.InputEditGameDto;
 import lv.ewdj.fifaworldcup.dto.InputGameDto;
 import lv.ewdj.fifaworldcup.dto.OutputGameDto;
+import lv.ewdj.fifaworldcup.exceptions.GameNotFoundException;
 import lv.ewdj.fifaworldcup.model.Game;
 import lv.ewdj.fifaworldcup.model.Prognosis;
 import lv.ewdj.fifaworldcup.model.User;
@@ -16,6 +17,7 @@ import lv.ewdj.fifaworldcup.repository.UserRepository;
 import lv.ewdj.fifaworldcup.util.PrognosisResult;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -30,12 +32,16 @@ public class GameService {
     private final GameRepository gameRepository;
     private final UserRepository userRepository;
 
-    public List<OutputGameDto> findAllGames() {
+    public List<OutputGameDto> findAllGamesDtos() {
         return gameRepository.findAll().stream()
                 .map(OutputGameDto::objToDto)
                 .sorted(Comparator.comparing(OutputGameDto::dateOfGame).thenComparing(OutputGameDto::timeOfGame))
                 .toList();
     }
+    public List<Game> findAllGames() {
+        return gameRepository.findAll();
+    }
+
 
     public void saveGame(InputGameDto inputGameDto) {
         gameRepository.save(
@@ -160,5 +166,21 @@ public class GameService {
 //                user.addPoints(pointsY);
         } else
             return PrognosisResult.Incorrect;
+    }
+
+    // REST
+    public List<Game> findAllGamesByDate(LocalDate date) {
+        List<Game> games = gameRepository.findAllByDateOfGame(date);
+        if (games.isEmpty()) throw new GameNotFoundException("No game was found with this date");
+        return games;
+    }
+
+    public List<String> getAllStadiums() {
+        List<Game> games = findAllGames();
+        List<String> stadiums = games.stream()
+                .map(Game::getStadium)
+                .distinct()
+                .toList();
+        return stadiums;
     }
 }

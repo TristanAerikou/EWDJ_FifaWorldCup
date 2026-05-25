@@ -16,4 +16,5 @@ public interface GameRepository extends JpaRepository<Game, Long> {
 
     Boolean existsByDateOfGameAndLocation(LocalDate dateOfGame, String location);
 
+    List<Game> findAllByDateOfGame(LocalDate dateOfGame);
 }
