@@ -16,9 +16,11 @@ public class Team {
     private int id;
 
     @Column(unique = true)
+    @Setter
     private String name;
 
     @Column(unique = true)
+    @Setter
     private String inviteCode;
 
 //    private int points;

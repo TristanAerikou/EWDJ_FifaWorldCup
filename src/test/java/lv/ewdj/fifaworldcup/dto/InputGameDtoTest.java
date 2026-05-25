@@ -73,7 +73,8 @@ class InputGameDtoTest {
                 landA, landB,
                 dateOfGame, timeOfGame,
                 null, null,
-                null, null
+                null, null,
+                95
         );
         Set<ConstraintViolation<InputGameDto>> violations = validator.validate(validGame);
 
@@ -82,26 +83,29 @@ class InputGameDtoTest {
 
     public static Stream<Arguments> ProvideInvalidMinimalGame() {
         return Stream.of(
-                Arguments.of("", "", null, null, List.of("landA", "landB", "dateOfGame", "timeOfGame")),
-                Arguments.of("   ", "   ", LocalDate.of(2026, 5, 25), LocalTime.of(12, 0), List.of("landA", "landB")),
-                Arguments.of("\t   ", "\t   ", LocalDate.of(2026, 5, 25), LocalTime.of(12, 0), List.of("landA", "landB")),
-                Arguments.of("\t", "\t", LocalDate.of(2026, 5, 25), LocalTime.of(12, 0), List.of("landA", "landB")),
-                Arguments.of("aaa", "aaa", null, null, List.of("landA", "landB", "dateOfGame", "timeOfGame")),
-                Arguments.of("aaaa", "zzzz", null, null, List.of("dateOfGame", "timeOfGame")),
-                Arguments.of("aaaa", "zzzz", LocalDate.of(2025, 5, 25), null, List.of("dateOfGame", "timeOfGame")),
-                Arguments.of("aaaa", "zzzz", LocalDate.of(2027, 5, 25), LocalTime.of(12, 0), List.of("dateOfGame")),
-                Arguments.of(null, null, LocalDate.of(2026, 5, 25), LocalTime.of(12, 0), List.of("landA", "landB"))
+                Arguments.of("", "", null, null, 123, List.of("landA", "landB", "dateOfGame", "timeOfGame")),
+                Arguments.of("   ", "   ", LocalDate.of(2026, 5, 25), LocalTime.of(12, 0), 123, List.of("landA", "landB")),
+                Arguments.of("\t   ", "\t   ", LocalDate.of(2026, 5, 25), LocalTime.of(12, 0), 123, List.of("landA", "landB")),
+                Arguments.of("\t", "\t", LocalDate.of(2026, 5, 25), LocalTime.of(12, 0), null, List.of("landA", "landB")),
+                Arguments.of("aaa", "aaa", null, null, 123, List.of("landA", "landB", "dateOfGame", "timeOfGame")),
+                Arguments.of("aaaa", "zzzz", null, null, 123, List.of("dateOfGame", "timeOfGame")),
+                Arguments.of("aaaa", "zzzz", LocalDate.of(2025, 5, 25), null, 123, List.of("dateOfGame", "timeOfGame")),
+                Arguments.of("aaaa", "zzzz", LocalDate.of(2027, 5, 25), LocalTime.of(12, 0), 123, List.of("dateOfGame")),
+                Arguments.of(null, null, LocalDate.of(2026, 5, 25), LocalTime.of(12, 0), 123, List.of("landA", "landB")),
+                Arguments.of("aaaaaaaaa", "zzzzzzzz", LocalDate.of(2026, 5, 25), LocalTime.of(12, 0), -1, List.of("capacity")),
+                Arguments.of("aaaaaaaaa", "zzzzzzzz", LocalDate.of(2026, 5, 25), LocalTime.of(12, 0), -15, List.of("capacity"))
         );
     }
 
     @ParameterizedTest
     @MethodSource("ProvideInvalidMinimalGame")
-    void invalidMinimalGame(String landA, String landB, LocalDate dateOfGame, LocalTime timeOfGame, List<String> expected) {
+    void invalidMinimalGame(String landA, String landB, LocalDate dateOfGame, LocalTime timeOfGame, Integer capacity, List<String> expected) {
         InputGameDto invalidGame = new InputGameDto(
                 landA, landB,
                 dateOfGame, timeOfGame,
                 null, null,
-                null, null
+                null, null,
+                capacity
         );
 
         Set<ConstraintViolation<InputGameDto>> violations = validator.validate(invalidGame);
@@ -120,7 +124,8 @@ class InputGameDtoTest {
         InputGameDto validGame = new InputGameDto(
                 DEFAULT_LANDA, DEFAULT_LANDA, DEFAULT_DATEOFGAME, DEFAULT_TIMEOFGAME,
                 null, null,
-                stadiumCode, checksum
+                stadiumCode, checksum,
+                123
         );
         Set<ConstraintViolation<InputGameDto>> violations = validator.validate(validGame);
 
@@ -150,7 +155,8 @@ class InputGameDtoTest {
         InputGameDto invalidGame = new InputGameDto(
                 DEFAULT_LANDA, DEFAULT_LANDA, DEFAULT_DATEOFGAME, DEFAULT_TIMEOFGAME,
                 null, null,
-                stadiumCode, checksum
+                stadiumCode, checksum,
+                123
         );
         Set<ConstraintViolation<InputGameDto>> violations = validator.validate(invalidGame);
 
@@ -181,7 +187,8 @@ class InputGameDtoTest {
                 "abcdef", "abcdef",
                 DEFAULT_DATEOFGAME, DEFAULT_TIMEOFGAME,
                 null, null,
-                null, null
+                null, null,
+                123
         );
 
         Errors errors = new BeanPropertyBindingResult(invalidGame, "invalidGame");
@@ -205,7 +212,8 @@ class InputGameDtoTest {
                 DEFAULT_LANDA, DEFAULT_LANDB,
                 existingDate, DEFAULT_TIMEOFGAME,
                 existingLocation, null,
-                null, null
+                null, null,
+                123
         );
 
         Errors errors = new BeanPropertyBindingResult(invalidGame, "invalidGame");

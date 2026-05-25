@@ -1,10 +1,10 @@
 package lv.ewdj.fifaworldcup.controller;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lv.ewdj.fifaworldcup.dto.*;
 import lv.ewdj.fifaworldcup.model.Team;
-import lv.ewdj.fifaworldcup.model.User;
 import lv.ewdj.fifaworldcup.service.TeamService;
 import lv.ewdj.fifaworldcup.service.UserService;
 import org.slf4j.Logger;
@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -71,6 +69,7 @@ public class TeamController {
             // BindingResult samen behandelt.
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.inputTeamDto", result);
             redirectAttributes.addFlashAttribute("inputTeamDto", inputTeamDto);
+//            log.info("inputTeamDto has errors.\n{}", inputTeamDto.toString());
             return "redirect:/team/noTeam";
         }
 
@@ -101,7 +100,7 @@ public class TeamController {
     }
 
     @GetMapping("myTeam")
-    public String showTeam(InputRemovememberDto inputRemovememberDto, Model model, Principal principal) {
+    public String showTeam(InputRemovememberDto inputRemovememberDto, InputChangeTeamNameAndCodeDto inputChangeTeamNameAndCodeDto, Model model, Principal principal) {
         OutputTeamDto team = teamService.getTeamByUsername(principal.getName());
         if (team == null) {
             return "redirect:/team/noTeam";
@@ -136,6 +135,20 @@ public class TeamController {
         }
 
         teamService.removeMember(inputRemovememberDto.username());
+
+        return "redirect:/team/myTeam";
+    }
+
+    @PostMapping("changeNameAndCode/{teamName}")
+    public String updateTeam(
+            @Valid InputChangeTeamNameAndCodeDto inputChangeTeamNameAndCodeDto,
+            @PathVariable String teamName
+    ) {
+
+        Team team = teamService.getTeamByTeamname(teamName);
+        if (team == null) throw new EntityNotFoundException("Team not found");
+
+        teamService.updateTeamNameAndInviteCode(teamName, inputChangeTeamNameAndCodeDto.newTeamName());
 
         return "redirect:/team/myTeam";
     }

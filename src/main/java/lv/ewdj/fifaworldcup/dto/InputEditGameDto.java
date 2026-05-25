@@ -41,7 +41,10 @@ public record InputEditGameDto(
         @Min(value = 0, message = "{wedstrijd.validation.minScore}")
         Integer scoreA,
         @Min(value = 0, message = "{wedstrijd.validation.minScore}")
-        Integer scoreB
+        Integer scoreB,
+
+        @Min(value = 0, message = "{wedstrijd.validation.capacity}")
+        Integer capacity
 ) implements ChecksumValidatable {
 
     public static Game dtoToObj(InputEditGameDto dto) {
@@ -54,7 +57,8 @@ public record InputEditGameDto(
                 dto.stadium(),
                 dto.stadiumCode() != null ? dto.stadiumCode() : -1,
                 dto.scoreA() != null ? dto.scoreA() : -1,
-                dto.scoreB != null ? dto.scoreB() : -1
+                dto.scoreB() != null ? dto.scoreB() : -1,
+                dto.capacity() != null ? dto.capacity() : -1
         );
     }
 
@@ -68,8 +72,9 @@ public record InputEditGameDto(
                 game.getStadium(),
                 game.getStadiumCode() < 0 ? null : game.getStadiumCode(),
                 null,
-                game.getScoreA() < 0 ?  null : game.getScoreA(),
-                game.getScoreB() <  0 ?  null : game.getScoreB()
-                );
+                game.getScoreA() < 0 ? null : game.getScoreA(),
+                game.getScoreB() < 0 ? null : game.getScoreB(),
+                game.getCapacity() < 0 ? null : game.getCapacity()
+        );
     }
 }

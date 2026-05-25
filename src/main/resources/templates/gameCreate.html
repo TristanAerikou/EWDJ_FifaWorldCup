@@ -77,6 +77,13 @@
     </p>
 
     <p>
+        <!--        Capacity -->
+        <label th:text="#{wedstrijd.create.form.capacity}"> </label>
+        <input type="number" th:field="*{capacity}" />
+        <span th:if="${#fields.hasErrors('capacity')}" th:errorclass="error" th:errors="*{capacity}"></span>
+    </p>
+
+    <p>
         <button type="submit" th:text="#{form.submit}"></button>
     </p>
 

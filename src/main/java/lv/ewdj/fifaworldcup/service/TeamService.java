@@ -48,8 +48,8 @@ public class TeamService {
     }
 
     private String generateInviteCode(String name) {
-        if (!name.matches(".*[a-zA-Z]*.*"))
-            throw new IllegalArgumentException("Name must contain letters for invite code to be generated");
+        if (!name.matches(".*[a-zA-Z]+.*"))
+            throw new InvitecodeException("Name must contain letters for invite code to be generated");
         int counter = 0;
         int nameLength = name.length();
         StringBuilder currentStr = new StringBuilder();
@@ -87,5 +87,16 @@ public class TeamService {
 
     public List<Team> getTopTenTeams() {
         return teamRepository.findTopTenTeams();
+    }
+
+    public void updateTeamNameAndInviteCode(String oldName, String newName) {
+        String inviteCode = generateInviteCode(newName);
+        checkInviteCode(inviteCode);
+
+        Team team = getTeamByTeamname(oldName);
+        team.setName(newName);
+        team.setInviteCode(inviteCode);
+
+        teamRepository.save(team);
     }
 }

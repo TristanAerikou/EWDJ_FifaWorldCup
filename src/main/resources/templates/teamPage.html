@@ -15,6 +15,13 @@
 
 <div th:if="${username == team.owner.username}">
     <p th:text="|#{teamPage.owner.invitecode} ${team.inviteCode}|"></p>
+
+    <form th:action="@{/team/changeNameAndCode/{teamname}(teamname=${team.teamName})}" th:object="${inputChangeTeamNameAndCodeDto}" method="post">
+        <label th:text="#{teamPage.owner.changeName}"></label>
+        <input type="text" th:field="*{newTeamName}">
+        <button th:text="#{form.submit}" type="submit"></button>
+    </form>
+
 </div>
 
 <div>

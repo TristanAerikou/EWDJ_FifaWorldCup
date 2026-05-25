@@ -33,6 +33,16 @@ public class RestClientDemo {
         getAllStadiums()
                 .doOnNext(System.out::println)
                 .blockLast();
+
+        System.out.println("\n------- GET STADIUM 'Jan Breydelstadion' (4 capacities) -------");
+        getStadium("Jan Breydelstadion")
+                .doOnNext(System.out::println)
+                .block();
+
+        System.out.println("\n------- GET STADIUM 'Lotto Park' (1 capacity) -------");
+        getStadium("Lotto Park")
+                .doOnNext(System.out::println)
+                .block();
     }
 
     private Flux<Game> getAllGames() {
@@ -54,6 +64,13 @@ public class RestClientDemo {
                 .uri("/stadiums")
                 .retrieve()
                 .bodyToFlux(String.class);
+    }
+
+    private Mono<String> getStadium(String stadium) {
+        return webClient.get()
+                .uri(uriBuilder -> uriBuilder.path("/stadiums/capacity/{stadium}").build(stadium))
+                .retrieve()
+                .bodyToMono(String.class);
     }
 
 }

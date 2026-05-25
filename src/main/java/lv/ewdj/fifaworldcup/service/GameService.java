@@ -7,6 +7,7 @@ import lv.ewdj.fifaworldcup.dto.InputEditGameDto;
 import lv.ewdj.fifaworldcup.dto.InputGameDto;
 import lv.ewdj.fifaworldcup.dto.OutputGameDto;
 import lv.ewdj.fifaworldcup.exceptions.GameNotFoundException;
+import lv.ewdj.fifaworldcup.exceptions.StadiumNotFoundException;
 import lv.ewdj.fifaworldcup.model.Game;
 import lv.ewdj.fifaworldcup.model.Prognosis;
 import lv.ewdj.fifaworldcup.model.User;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -182,5 +184,16 @@ public class GameService {
                 .distinct()
                 .toList();
         return stadiums;
+    }
+
+    public String getCapacitiesByStadium(String stadium) {
+        List<Game> games = gameRepository.findAllByStadium(stadium);
+
+        if (games.isEmpty()) throw new StadiumNotFoundException("No StadiumNotFound was found with this name");
+
+        String str =  games.stream()
+                .map(game -> String.valueOf(game.getCapacity()))
+                .collect(Collectors.joining(", "));
+        return "This stadium has capacities of: %s".formatted(str);
     }
 }

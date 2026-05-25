@@ -44,4 +44,11 @@ public class RestGameController {
         return gameService.getAllStadiums();
     }
 
+    @GetMapping("stadiums/capacity/{stadium}")
+    public String getCapacitiesByStadium(
+            @PathVariable String stadium
+    ) {
+        return gameService.getCapacitiesByStadium(stadium);
+    }
+
 }

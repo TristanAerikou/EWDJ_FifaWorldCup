@@ -48,11 +48,13 @@ public class Game {
     private String stadium;
     private int stadiumCode;
 
+    private int capacity;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "game")
     @JsonIgnore
     private List<Prognosis> prognoses;
 
-    public Game(String landA, String landB, LocalDate dateOfGame, LocalTime timeOfGame, String location, String stadium, int stadiumCode) {
+    public Game(String landA, String landB, LocalDate dateOfGame, LocalTime timeOfGame, String location, String stadium, int stadiumCode,  int capacity) {
         this.landA = landA;
         this.landB = landB;
         this.dateOfGame = dateOfGame;
@@ -63,9 +65,11 @@ public class Game {
 
         this.scoreA = -1;
         this.scoreB = -1;
+
+        this.capacity = capacity;
     }
 
-    public Game(String landA, String landB, LocalDate dateOfGame, LocalTime timeOfGame, String location, String stadium, int stadiumCode, int scoreA, int scoreB) {
+    public Game(String landA, String landB, LocalDate dateOfGame, LocalTime timeOfGame, String location, String stadium, int stadiumCode, int scoreA, int scoreB, int capacity) {
         this.landA = landA;
         this.landB = landB;
         this.dateOfGame = dateOfGame;
@@ -76,6 +80,8 @@ public class Game {
 
         this.scoreA = scoreA;
         this.scoreB = scoreB;
+
+        this.capacity = capacity;
     }
 
 }

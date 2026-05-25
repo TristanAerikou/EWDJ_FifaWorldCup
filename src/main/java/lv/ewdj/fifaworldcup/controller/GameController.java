@@ -63,7 +63,8 @@ public class GameController {
     public String processCreateForm(
             @Valid InputGameDto inputGameDto,
             BindingResult result,
-            Model model) {
+            Model model,
+            RedirectAttributes redirectAttributes) {
 
         if (result.hasErrors()) {
             return "gameCreate";
@@ -71,7 +72,8 @@ public class GameController {
 
         gameService.saveGame(inputGameDto);
 
-        return "redirect:/game/allGames"; // radpleeg wedstrijd //TODO
+        redirectAttributes.addFlashAttribute("successMessage", successMessage);
+        return "redirect:/game/allGames";
     }
 
     @GetMapping("prognosis/{id}")
@@ -142,6 +144,11 @@ public class GameController {
             RedirectAttributes redirectAttributes) {
 
         if (result.hasErrors()) {
+            if (inputEditGameDto.dateOfGame() != null && inputEditGameDto.timeOfGame() != null) {
+                LocalDateTime exactPlayTime = LocalDateTime.of(inputEditGameDto.dateOfGame(), inputEditGameDto.timeOfGame());
+                boolean canEditScore = LocalDateTime.now().isAfter(exactPlayTime);
+                model.addAttribute("canEditScore", canEditScore);
+            }
             model.addAttribute("gameId", gameId);
             return "gameEdit";
         }

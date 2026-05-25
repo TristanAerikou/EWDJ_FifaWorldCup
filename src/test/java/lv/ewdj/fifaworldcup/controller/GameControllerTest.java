@@ -4,7 +4,7 @@ import lv.ewdj.fifaworldcup.dto.InputEditGameDto;
 import lv.ewdj.fifaworldcup.dto.InputGameDto;
 import lv.ewdj.fifaworldcup.dto.InputPrognosisDto;
 import lv.ewdj.fifaworldcup.dto.OutputGameDto;
-import lv.ewdj.fifaworldcup.helpers.helperVariables;
+import lv.ewdj.fifaworldcup.helpers.HelperVariables;
 import lv.ewdj.fifaworldcup.model.Game;
 import lv.ewdj.fifaworldcup.service.GameService;
 import lv.ewdj.fifaworldcup.service.PrognosisService;
@@ -74,7 +74,7 @@ class GameControllerTest {
 //    @WithMockUser
     void getAllGames() throws Exception {
 
-        List<OutputGameDto> expectedGames = helperVariables.provideExpectedGames();
+        List<OutputGameDto> expectedGames = HelperVariables.provideExpectedGamesAsDtos();
 
         Mockito.when(gameService.findAllGamesDtos()).thenReturn(expectedGames);
 
@@ -106,7 +106,8 @@ class GameControllerTest {
                 null,
                 null,
                 null,
-                null
+                null,
+                255
         );
     }
 
@@ -130,27 +131,29 @@ class GameControllerTest {
     //hier staan fouten in ivm "2025" vs "2026" en zo... nie al te erg voor deze testen
     public static Stream<Arguments> ProvideInvalidGame() {
         return Stream.of(
-                Arguments.of("", "", null, null, null, null, new String[]{"landA", "landB", "dateOfGame", "timeOfGame"}),
-                Arguments.of("   ", "   ", LocalDate.of(2026, 5, 25), LocalTime.of(12, 0), null, null, new String[]{"landA", "landB"}),
-                Arguments.of("\t   ", "\t   ", LocalDate.of(2026, 5, 25), LocalTime.of(12, 0), null, null, new String[]{"landA", "landB"}),
-                Arguments.of("\t", "\t", LocalDate.of(2026, 5, 25), LocalTime.of(12, 0), null, null, new String[]{"landA", "landB"}),
-                Arguments.of("aaa", "aaa", null, null, null, null, new String[]{"landA", "landB"}),
-                Arguments.of("aaaa", "zzzz", null, null, null, null, new String[]{"dateOfGame", "timeOfGame"}),
-                Arguments.of("aaaa", "zzzz", LocalDate.of(2025, 5, 25), null, null, null, new String[]{"dateOfGame", "timeOfGame"}),
-                Arguments.of("aaaa", "zzzz", LocalDate.of(2027, 5, 25), LocalTime.of(12, 0), null, null, new String[]{"dateOfGame"}),
+                Arguments.of("", "", null, null, null, null, null, new String[]{"landA", "landB", "dateOfGame", "timeOfGame"}),
+                Arguments.of("   ", "   ", LocalDate.of(2026, 5, 25), LocalTime.of(12, 0), null, null,  255, new String[]{"landA", "landB"}),
+                Arguments.of("\t   ", "\t   ", LocalDate.of(2026, 5, 25), LocalTime.of(12, 0), null, null, 255,  new String[]{"landA", "landB"}),
+                Arguments.of("\t", "\t", LocalDate.of(2026, 5, 25), LocalTime.of(12, 0), null, null, 255,  new String[]{"landA", "landB"}),
+                Arguments.of("aaa", "aaa", null, null, null, null, null, new String[]{"landA", "landB"}),
+                Arguments.of("aaaa", "zzzz", null, null, null, null, null, new String[]{"dateOfGame", "timeOfGame"}),
+                Arguments.of("aaaa", "zzzz", LocalDate.of(2025, 5, 25), null, null, null, 255,  new String[]{"dateOfGame", "timeOfGame"}),
+                Arguments.of("aaaa", "zzzz", LocalDate.of(2027, 5, 25), LocalTime.of(12, 0), null, null, 255,  new String[]{"dateOfGame"}),
 
-                Arguments.of("aaaa", "zzzz", LocalDate.of(2025, 5, 25), LocalTime.of(12, 0), 0, 1, new String[]{"checksum"}),
-                Arguments.of("aaaa", "zzzz", LocalDate.of(2025, 5, 25), LocalTime.of(12, 0), 97, 0, new String[]{"stadiumCode"}),
-                Arguments.of("aaaa", "zzzz", LocalDate.of(2025, 5, 25), LocalTime.of(12, 0), 972, 0, new String[]{"stadiumCode", "checksum"}),
-                Arguments.of("aaaa", "zzzz", LocalDate.of(2025, 5, 25), LocalTime.of(12, 0), 9797, 25, new String[]{"checksum"}),
-                Arguments.of("aaaa", "zzzz", LocalDate.of(2025, 5, 25), LocalTime.of(12, 0), 45454, 25, new String[]{"checksum"}),
-                Arguments.of("aaaa", "zzzz", LocalDate.of(2025, 5, 25), LocalTime.of(12, 0), 9797, null, new String[]{"checksum"})
+                Arguments.of("aaaa", "zzzz", LocalDate.of(2025, 5, 25), LocalTime.of(12, 0), 0, 1, 255,  new String[]{"checksum"}),
+                Arguments.of("aaaa", "zzzz", LocalDate.of(2025, 5, 25), LocalTime.of(12, 0), 97, 0, 255,  new String[]{"stadiumCode"}),
+                Arguments.of("aaaa", "zzzz", LocalDate.of(2025, 5, 25), LocalTime.of(12, 0), 972, 0, 255,  new String[]{"stadiumCode", "checksum"}),
+                Arguments.of("aaaa", "zzzz", LocalDate.of(2025, 5, 25), LocalTime.of(12, 0), 9797, 25, 255,  new String[]{"checksum"}),
+                Arguments.of("aaaa", "zzzz", LocalDate.of(2025, 5, 25), LocalTime.of(12, 0), 45454, 25, 255,  new String[]{"checksum"}),
+                Arguments.of("aaaa", "zzzz", LocalDate.of(2025, 5, 25), LocalTime.of(12, 0), 9797, null, 255,  new String[]{"checksum"}),
+                Arguments.of("aaaa", "zzzz", LocalDate.of(2025, 5, 25), LocalTime.of(12, 0), 9797, 0, -1,  new String[]{"capacity"}),
+                Arguments.of("aaaa", "zzzz", LocalDate.of(2025, 5, 25), LocalTime.of(12, 0), 9797, 0, -15,  new String[]{"capacity"})
         );
     }
 
     @ParameterizedTest
     @MethodSource("ProvideInvalidGame")
-    void postCreateInvalidRequest(String landA, String landB, LocalDate dateOfGame, LocalTime timeOfGame, Integer stadiumCode, Integer checksum, String[] expectedErrors) throws Exception {
+    void postCreateInvalidRequest(String landA, String landB, LocalDate dateOfGame, LocalTime timeOfGame, Integer stadiumCode, Integer checksum, Integer capacity, String[] expectedErrors) throws Exception {
 
         trainGameValidator(expectedErrors);
 
@@ -162,7 +165,8 @@ class GameControllerTest {
                 null,
                 null,
                 stadiumCode,
-                checksum
+                checksum,
+                capacity
         );
 
         mockMvc.perform(post("/game/create")
@@ -193,7 +197,7 @@ class GameControllerTest {
     @Test
     void showPrognosisViewNoPrognosis() throws Exception {
         int gameId = 1;
-        Game game = helperVariables.provideGame();
+        Game game = HelperVariables.provideGame();
 
         Mockito.when(gameService.getGameById(gameId)).thenReturn(Optional.of(game));
         Mockito.when(prognosisService.getPrognosisByGameAndUser(Mockito.anyInt(), Mockito.anyString())).thenReturn(Collections.emptyList());
@@ -209,10 +213,10 @@ class GameControllerTest {
     @Test
     void showPrognosisViewWithPrognosis() throws Exception {
         int gameId = 1;
-        Game game = helperVariables.provideGame();
+        Game game = HelperVariables.provideGame();
 
         Mockito.when(gameService.getGameById(gameId)).thenReturn(Optional.of(game));
-        Mockito.when(prognosisService.getPrognosisByGameAndUser(Mockito.anyInt(), Mockito.anyString())).thenReturn(Collections.singletonList(helperVariables.providePrognosis()));
+        Mockito.when(prognosisService.getPrognosisByGameAndUser(Mockito.anyInt(), Mockito.anyString())).thenReturn(Collections.singletonList(HelperVariables.providePrognosis()));
 
         mockMvc.perform(get("/game/prognosis/1")
                         .principal(testPrincipal)
@@ -230,7 +234,7 @@ class GameControllerTest {
     @Test
     void showPrognosisNoGameFound() throws Exception {
         int gameId = 1;
-        Game game = helperVariables.provideGame();
+        Game game = HelperVariables.provideGame();
 
         Mockito.when(gameService.getGameById(gameId)).thenReturn(Optional.empty());
 //        Mockito.when(prognosisService.getPrognosisByGameAndUser(Mockito.anyInt(), Mockito.anyString())).thenReturn(Collections.singletonList(helperVariables.providePrognosis()));
@@ -272,7 +276,7 @@ class GameControllerTest {
     void postPrognosisInvalidRequest() throws Exception {
         int gameId = 1;
 
-        Game game = helperVariables.provideGame();
+        Game game = HelperVariables.provideGame();
         Mockito.when(gameService.getGameById(gameId)).thenReturn(Optional.of(game));
 
         Mockito.doAnswer(invocation -> {
@@ -321,7 +325,7 @@ class GameControllerTest {
     void showEditFormGameFound_scoreNotYetEditable() throws Exception {
         int gameId = 1;
 
-        Game futureGame = helperVariables.futureGame();
+        Game futureGame = HelperVariables.futureGame();
         Mockito.when(gameService.getGameById(gameId)).thenReturn(Optional.of(futureGame));
 
         mockMvc.perform(get("/game/edit/{gameId}", gameId))
@@ -336,7 +340,7 @@ class GameControllerTest {
     void showEditFormGameFound_scoreIsEditable() throws Exception {
         int gameId = 1;
 
-        Game pastGame = helperVariables.provideGameInThePast();
+        Game pastGame = HelperVariables.provideGameInThePast();
         Mockito.when(gameService.getGameById(gameId)).thenReturn(Optional.of(pastGame));
 
         mockMvc.perform(get("/game/edit/{gameId}", gameId))
@@ -372,6 +376,7 @@ class GameControllerTest {
                 null,
                 null,
                 null,
+                null,
                 null
         );
     }
@@ -387,7 +392,8 @@ class GameControllerTest {
                 null,
                 null,
                 2,
-                1
+                1,
+                null
         );
     }
 
@@ -448,7 +454,7 @@ class GameControllerTest {
             return null;
         }).when(gameValidator).validate(Mockito.any(InputEditGameDto.class), Mockito.any(Errors.class));
 
-        InputEditGameDto invalidDto = new InputEditGameDto("", "", null, null, null, null, null, null, null, null);
+        InputEditGameDto invalidDto = new InputEditGameDto("", "", null, null, null, null, null, null, null, null, null);
 
         mockMvc.perform(post("/game/edit/{gameId}", gameId)
                         .flashAttr("inputEditGameDto", invalidDto)
@@ -474,7 +480,7 @@ class GameControllerTest {
             return null;
         }).when(gameValidator).validate(Mockito.any(InputEditGameDto.class), Mockito.any(Errors.class));
 
-        InputEditGameDto invalidDto = new InputEditGameDto("", "Germany", null, null, null, null, null, null, null, null);
+        InputEditGameDto invalidDto = new InputEditGameDto("", "Germany", null, null, null, null, null, null, null, null, null);
 
         mockMvc.perform(post("/game/edit/{gameId}", gameId)
                         .flashAttr("inputEditGameDto", invalidDto)

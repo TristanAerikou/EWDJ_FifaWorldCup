@@ -86,6 +86,13 @@
         <span th:if="${#fields.hasErrors('checksum')}" th:errorclass="error" th:errors="*{checksum}"></span>
     </p>
 
+    <p>
+        <!--        Capacity -->
+        <label th:text="#{wedstrijd.create.form.capacity}"> </label>
+        <input type="number" th:field="*{capacity}"/>
+        <span th:if="${#fields.hasErrors('capacity')}" th:errorclass="error" th:errors="*{capacity}"></span>
+    </p>
+
     <p th:text="#{wedstrijd.edit.form.score.warning}" class="error"></p>
 
     <p>

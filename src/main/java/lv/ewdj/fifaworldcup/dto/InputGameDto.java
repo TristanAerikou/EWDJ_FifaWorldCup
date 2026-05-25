@@ -36,7 +36,10 @@ public record InputGameDto(
         @Min(value = 1000, message = "{wedstrijd.create.validation.stadiumCode}")
         @Max(value = 9999, message = "{wedstrijd.create.validation.stadiumCode}")
         Integer stadiumCode,
-        Integer checksum
+        Integer checksum,
+
+        @Min(value = 0, message = "{wedstrijd.validation.capacity}")
+        Integer capacity
 ) implements ChecksumValidatable {
     public static Game dtoToObj(InputGameDto dto) {
         return new Game(
@@ -46,7 +49,8 @@ public record InputGameDto(
                 dto.timeOfGame(),
                 dto.location(),
                 dto.stadium(),
-                dto.stadiumCode() != null ? dto.stadiumCode() : -1
+                dto.stadiumCode() != null ? dto.stadiumCode() : -1,
+                dto.capacity() != null ? dto.capacity() : -1
         );
     }
 }
