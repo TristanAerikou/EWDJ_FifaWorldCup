@@ -23,8 +23,8 @@ public class InitDataConfig implements CommandLineRunner {
     private final TeamRepository teamRepository;
 
     private static final String BCRYPTED_PASSWORD =
-            "$2a$12$XUVHZa3gBuw.mpetu.2dmunWbKYjfIChpk9ZXgxAnsXGP1lKYimgy";
-    // aha - https://bcrypt-generator.com/
+            "$2a$12$y24ppC/byYCKZPQUyWfySeT4jKUbcoCUZdavLWsZZVoaTuDVMIsV.";
+    // fifa - https://bcrypt-generator.com/
 
     private static final String ADMIN_PASSWORD =
             "$2a$12$0uJ9XULn3l8I2v8FEoKzzu7Py/X0f4R88xkVu7qoSrPKvRKodqLvu";

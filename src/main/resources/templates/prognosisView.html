@@ -14,25 +14,29 @@
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
 <div th:if="${game.finished && prognosis == null}">
+<!--    Game has finished & No prognosis given-->
     <p th:text="#{prognoseView.finished.noPrognosis}"></p>
 </div>
 <div th:if="${game.finished && prognosis != null}">
-    <p th:text="#{prognoseView.finished.goalsOfTeam(${game.team1}, ${prognosis.goalsTeamsA()})}"></p>
-    <p th:text="#{prognoseView.finished.goalsOfTeam(${game.team2}, ${prognosis.goalsTeamsB()})}"></p>
+    <!--    Game has finished & prognosis has been given-->
+    <p th:text="#{prognoseView.finished.prognosis.header}"></p>
+    <p th:text="#{prognoseView.finished.prognosis.goalsOfTeam(${game.team1}, ${prognosis.goalsTeamsA})}"></p>
+    <p th:text="#{prognoseView.finished.prognosis.goalsOfTeam(${game.team2}, ${prognosis.goalsTeamsB})}"></p>
 </div>
 <div th:if="${!game.finished}">
-    <p>Please input your prognosis.</p>
+    <!--    Game hasn't finished; user can still input prognosis-->
+    <p th:text="#{prognoseView.finished.prognosis.pleaseInput}"></p>
     <p th:if="${successMessage != null}" th:text="${successMessage}" class="successMessage"></p>
     <form th:action="@{/game/prognosis/{gameId}(gameId=${game.id})}" th:object="${inputPrognosisDto}" method="post">
         <p>
             <!--        goals of team A-->
-            <label th:text="#{prognoseView.finished.goalsOfTeam(${game.team1()}, ${''})}" > </label>
+            <label th:text="#{prognoseView.finished.prognosis.goalsOfTeam(${game.team1()}, ${''})}" > </label>
             <input type="number" th:field="*{goalsTeamsA}" />
             <span th:if="${#fields.hasErrors('goalsTeamsA')}" th:errorclass="error" th:errors="*{goalsTeamsA}"></span>
         </p>
         <p>
             <!--        goals of team B-->
-            <label th:text="#{prognoseView.finished.goalsOfTeam(${game.team2()}, ${''})}" > </label>
+            <label th:text="#{prognoseView.finished.prognosis.goalsOfTeam(${game.team2()}, ${''})}" > </label>
             <input type="number" th:field="*{goalsTeamsB}" />
 
             <span th:if="${#fields.hasErrors('goalsTeamsA')}" th:errorclass="error" th:errors="*{goalsTeamsB}"></span>
