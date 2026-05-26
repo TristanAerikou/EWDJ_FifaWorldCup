@@ -44,7 +44,7 @@ public class TeamService {
 
     private void checkInviteCode(String inviteCode) {
         if (teamRepository.existsByInviteCode(inviteCode))
-            throw new InvitecodeException("Already in use", inviteCode);
+            throw new InvitecodeException("This invite code is already in use; this means you must choose a different team name", inviteCode);
     }
 
     private String generateInviteCode(String name) {

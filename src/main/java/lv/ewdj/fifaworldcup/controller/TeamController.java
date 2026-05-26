@@ -100,10 +100,14 @@ public class TeamController {
     }
 
     @GetMapping("myTeam")
-    public String showTeam(InputRemovememberDto inputRemovememberDto, InputChangeTeamNameAndCodeDto inputChangeTeamNameAndCodeDto, Model model, Principal principal) {
+    public String showTeam(InputRemovememberDto inputRemovememberDto, Model model, Principal principal) {
         OutputTeamDto team = teamService.getTeamByUsername(principal.getName());
         if (team == null) {
             return "redirect:/team/noTeam";
+        }
+
+        if (!model.containsAttribute("inputChangeTeamNameAndCodeDto")) {
+            model.addAttribute("inputChangeTeamNameAndCodeDto", new InputChangeTeamNameAndCodeDto(""));
         }
 
         List<OutputUserDto> users = userService.getUsersByTeamName(team.name());
@@ -141,9 +145,18 @@ public class TeamController {
 
     @PostMapping("changeNameAndCode/{teamName}")
     public String updateTeam(
-            @Valid InputChangeTeamNameAndCodeDto inputChangeTeamNameAndCodeDto,
-            @PathVariable String teamName
-    ) {
+            @Valid @ModelAttribute("inputChangeTeamNameAndCodeDto") InputChangeTeamNameAndCodeDto inputChangeTeamNameAndCodeDto,
+            BindingResult result,
+            @PathVariable String teamName,
+            RedirectAttributes redirectAttributes) {
+
+        if (result.hasErrors()) {
+            String err = "uh-oh....%n---------------------------%n%s%n----------------------%n".formatted(result.getAllErrors().toString());
+            log.error(err);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.inputChangeTeamNameAndCodeDto", result);
+            redirectAttributes.addFlashAttribute("inputChangeTeamNameAndCodeDto", inputChangeTeamNameAndCodeDto);
+            return "redirect:/team/myTeam";
+        }
 
         Team team = teamService.getTeamByTeamname(teamName);
         if (team == null) throw new EntityNotFoundException("Team not found");

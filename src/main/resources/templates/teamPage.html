@@ -19,6 +19,7 @@
     <form th:action="@{/team/changeNameAndCode/{teamname}(teamname=${team.teamName})}" th:object="${inputChangeTeamNameAndCodeDto}" method="post">
         <label th:text="#{teamPage.owner.changeName}"></label>
         <input type="text" th:field="*{newTeamName}">
+        <span th:if="${#fields.hasErrors('newTeamName')}" th:errorclass="error" th:errors="*{newTeamName}"></span>
         <button th:text="#{form.submit}" type="submit"></button>
     </form>
 

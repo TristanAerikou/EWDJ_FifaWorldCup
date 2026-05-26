@@ -32,3 +32,6 @@ The outlier in this is [InputGameDtoTest.java](src/test/java/lv/ewdj/fifaworldcu
 | Mercy         | Sixth Street vs. Eighth Street | 1 - 1     |
 | RockFromSpace | Sixth Street vs. Eighth Street     | 2 - 3     |
 | Mercy         | Ravensburger vs. Google     | 5 - 1     |
+
+A couple trivial usernames with no relations (password "fifa")
+: StrikerGoal99, OffsideTrap, CornerKickPro...

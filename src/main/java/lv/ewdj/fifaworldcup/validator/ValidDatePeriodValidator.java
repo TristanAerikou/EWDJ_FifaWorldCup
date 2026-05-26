@@ -4,6 +4,7 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lv.ewdj.fifaworldcup.util.DateTimeFormats;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -39,6 +40,9 @@ public class ValidDatePeriodValidator implements ConstraintValidator<ValidDatePe
     public void initialize(ValidDatePeriod constraintAnnotation) {
         this.fifaStartDate = LocalDate.parse(fifaStartDateStr, DateTimeFormatter.ISO_LOCAL_DATE);
         this.fifaEndDate = LocalDate.parse(fifaEndDateStr, DateTimeFormatter.ISO_LOCAL_DATE);
+
+        fifaStartDateStr = fifaStartDate.format(DateTimeFormats.DATE_FORMATTER);
+        fifaEndDateStr = fifaStartDate.format(DateTimeFormats.DATE_FORMATTER);
     }
 
     @Override
