@@ -20,13 +20,13 @@
 <table class="fullscreen">
     <thead>
     <tr>
-        <th>teams</th>
-        <th>city</th>
-        <th>stadium</th>
-        <th>Date</th>
-        <th>Time</th>
-        <th>Score</th>
-        <th>Prognosis</th>
+        <th th:text="#{home.table.teams}"></th>
+        <th th:text="#{home.table.location}"></th>
+        <th th:text="#{home.table.stadium}"></th>
+        <th th:text="#{home.table.dateOfGame}"></th>
+        <th th:text="#{home.table.timeOfGame}"></th>
+        <th th:text="#{home.table.score}"></th>
+        <th th:text="#{home.table.prognosis}"></th>
         <th sec:authorize="hasRole('ADMIN')"></th>
     </tr>
     </thead>
@@ -43,16 +43,15 @@
         <td>
             <a th:href="@{/game/prognosis/{gameId}(gameId=${game.id})}">
                 <span th:if="${game.finished}" >
-                    <span th:text="'View Prognosis'"></span><br/><span th:text="'(game ended)'"> </span>
+                    <span th:text="#{home.table.prognosis.view}"></span><br/><span th:text="#{home.table.prognosis.gameEnded}"> </span>
                 </span>
-                <span th:unless="${game.finished}" th:text="'Edit Prognosis'"></span>
+                <span th:unless="${game.finished}" th:text="#{home.table.prognosis.edit}"></span>
             </a>
         </td>
         <td sec:authorize="hasRole('ADMIN')">
             <a th:href="@{/game/edit/{gameId}(gameId=${game.id})}">
-                <span th:if="${game.finished}" th:text="'Add Scores'"></span>
-                <span th:unless="${game.finished}" th:text="'Edit Game'"></span>
-
+                <span th:if="${game.finished}" th:text="#{home.table.admin.addScore}"></span>
+                <span th:unless="${game.finished}" th:text="#{home.table.admin.editGame}"></span>
             </a>
         </td>
     </tr>

@@ -41,6 +41,34 @@ public class InitDataConfig implements CommandLineRunner {
         team1 = teamRepository.save(team1);
         team2 = teamRepository.save(team2);
 
+        Team team3 = new Team("team3", "abcdefg3");
+        Team team4 = new Team("team4", "abcdefg4");
+        Team team5 = new Team("team5", "abcdefg5");
+        Team team6 = new Team("team6", "abcdefg6");
+        Team team7 = new Team("team7", "abcdefg7");
+        Team team8 = new Team("team8", "abcdefg8");
+        Team team9 = new Team("team9", "abcdefg9");
+        Team tea10 = new Team("tea10", "abcdef10");
+        Team tea11 = new Team("tea11", "abcdef11");
+        Team tea12 = new Team("tea12", "abcdef12");
+        Team tea13 = new Team("tea13", "abcdef13");
+        Team tea14 = new Team("tea14", "abcdef14");
+        Team tea15 = new Team("tea15", "abcdef15");
+
+        team3 = teamRepository.save(team3);
+        team4 = teamRepository.save(team4);
+        team5 = teamRepository.save(team5);
+        team6 = teamRepository.save(team6);
+        team7 = teamRepository.save(team7);
+        team8 = teamRepository.save(team8);
+        team9 = teamRepository.save(team9);
+        tea10 = teamRepository.save(tea10);
+        tea11 = teamRepository.save(tea11);
+        tea12 = teamRepository.save(tea12);
+        tea13 = teamRepository.save(tea13);
+        tea14 = teamRepository.save(tea14);
+        tea15 = teamRepository.save(tea15);
+
 
         // USERS
         User user1 = new User("RockFromSpace", ADMIN_PASSWORD, Role.ADMIN, "Tristan", "Aerikou");
@@ -56,17 +84,17 @@ public class InitDataConfig implements CommandLineRunner {
         user3 = userRepository.save(user3);
         user4 = userRepository.save(user4);
 
-        userRepository.save(new User("StrikerGoal99", BCRYPTED_PASSWORD, Role.USER, "Lucas", "Dubois"));
-        userRepository.save(new User("OffsideTrap", BCRYPTED_PASSWORD, Role.USER, "Elena", "Russo"));
-        userRepository.save(new User("TikiTakaMaster", BCRYPTED_PASSWORD, Role.USER, "Mateo", "Silva"));
-        userRepository.save(new User("CleanSheetKing", BCRYPTED_PASSWORD, Role.USER, "Sophia", "Müller"));
-        userRepository.save(new User("NutmegHero", BCRYPTED_PASSWORD, Role.USER, "Oliver", "Hansen"));
-        userRepository.save(new User("CornerKickPro", BCRYPTED_PASSWORD, Role.USER, "Amara", "Diallo"));
-        userRepository.save(new User("MidfieldMaestro", BCRYPTED_PASSWORD, Role.USER, "Liam", "O'Connor"));
-        userRepository.save(new User("VarCheckNoGoal", BCRYPTED_PASSWORD, Role.USER, "Chloe", "Lefevre"));
-        userRepository.save(new User("YellowCardWarning", BCRYPTED_PASSWORD, Role.USER, "Diego", "Fernandez"));
-        userRepository.save(new User("HatTrickHero", BCRYPTED_PASSWORD, Role.USER, "Emma", "Smit"));
-        userRepository.save(new User("CrossbarChallenger", BCRYPTED_PASSWORD, Role.USER, "Jonas", "Novak"));
+        userRepository.save(new User("StrikerGoal99", BCRYPTED_PASSWORD, Role.USER, "Lucas", "Dubois", team3, null));
+        userRepository.save(new User("OffsideTrap", BCRYPTED_PASSWORD, Role.USER, "Elena", "Russo", team4, null));
+        userRepository.save(new User("TikiTakaMaster", BCRYPTED_PASSWORD, Role.USER, "Mateo", "Silva", team5, null));
+        userRepository.save(new User("CleanSheetKing", BCRYPTED_PASSWORD, Role.USER, "Sophia", "Müller", team6, null));
+        userRepository.save(new User("NutmegHero", BCRYPTED_PASSWORD, Role.USER, "Oliver", "Hansen", team7, null));
+        userRepository.save(new User("CornerKickPro", BCRYPTED_PASSWORD, Role.USER, "Amara", "Diallo", team8, null));
+        userRepository.save(new User("MidfieldMaestro", BCRYPTED_PASSWORD, Role.USER, "Liam", "O'Connor", team9, null));
+        userRepository.save(new User("VarCheckNoGoal", BCRYPTED_PASSWORD, Role.USER, "Chloe", "Lefevre", tea10, null));
+        userRepository.save(new User("YellowCardWarning", BCRYPTED_PASSWORD, Role.USER, "Diego", "Fernandez", tea11, null));
+        userRepository.save(new User("HatTrickHero", BCRYPTED_PASSWORD, Role.USER, "Emma", "Smit", tea12, null));
+        userRepository.save(new User("CrossbarChallenger", BCRYPTED_PASSWORD, Role.USER, "Jonas", "Novak", tea13, null));
         userRepository.save(new User("GafferTactics", BCRYPTED_PASSWORD, Role.USER, "Aria", "Patel"));
         userRepository.save(new User("PitchInvader", BCRYPTED_PASSWORD, Role.USER, "Ethan", "Wright"));
         userRepository.save(new User("UltrasZone", BCRYPTED_PASSWORD, Role.USER, "Maja", "Wojcik"));
