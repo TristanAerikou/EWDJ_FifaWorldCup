@@ -9,7 +9,7 @@ import java.util.List;
 @Table(name = "users")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@EqualsAndHashCode(exclude = "id") //TODO CHANGE
+@EqualsAndHashCode(exclude = "id")
 @ToString
 //@NamedQueries({
 //        @NamedQuery(name="User.findByNameStartingWith2",
@@ -27,7 +27,7 @@ public class User {
     @ToString.Exclude
     private Long id;
 
-    @Column(unique = true, nullable = false) //TODO wat als iemand een bestaande username wilt
+    @Column(unique = true, nullable = false)
     private String username;
     @Column(nullable = false)
     private String password;

@@ -7,7 +7,6 @@ import jakarta.validation.constraints.Size;
 import lombok.NoArgsConstructor;
 
 public record InputInvitecodeDto(
-        //TODO messages uit resourcebundle
         @NotBlank
         @NotNull
         @Pattern(regexp = ".*[a-zA-Z]*.*")

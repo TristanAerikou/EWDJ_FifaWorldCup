@@ -18,7 +18,7 @@ import java.util.List;
 @Entity
 @Table(name = "games")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@EqualsAndHashCode(exclude = "id") //TODO CHANGE
+@EqualsAndHashCode(exclude = "id")
 @ToString(exclude = "id")
 @Getter()
 public class Game {

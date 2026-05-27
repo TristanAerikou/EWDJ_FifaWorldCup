@@ -12,8 +12,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Constraint(validatedBy = ValidChecksumValidator.class)
 @Target(ElementType.TYPE)
-@Documented //TODO needed?
-@Retention(RUNTIME) //TODO needed?
+@Documented
+@Retention(RUNTIME)
 public @interface ValidChecksum {
     String message() default "checksum is invalid";
     Class<?>[] groups() default{};

@@ -12,8 +12,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Constraint(validatedBy = ValidDatePeriodValidator.class)
 @Target(ElementType.FIELD)
-@Documented //TODO needed?
-@Retention(RUNTIME) //TODO needed?
+@Documented
+@Retention(RUNTIME)
 public @interface ValidDatePeriod {
 
     String message() default "date is not in allowed period";
